@@ -9,11 +9,6 @@
       name: maxhoesel.caddy.caddy_server
     vars:
       caddy_apply_config: no
-  - name: Create installed flag
-    file:
-      path: /etc/caddy/.installed
-      owner: root
-      group: root
-      mode: "644"
-      state: file
+  - name: Create installed flag file
+    command: touch /etc/caddy/.installed
   when: not caddy_install.stat.exists
