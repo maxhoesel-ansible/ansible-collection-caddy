@@ -8,6 +8,6 @@
       vars:
         caddy_config_mode: Caddyfile
         caddy_caddyfile: |
-          localhost
+          localhost:80
 
           respond "Hello World!"

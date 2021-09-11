@@ -21,8 +21,8 @@ notes:
 options:
   append:
     description: >
-      If set and I(path) points to an existing array or array index, the module will tell Caddy to append/insert to the array (using the APIs C(POST/PUT) method),
-      instead of replacing the array/array index (API C(PATCH) method).
+      If set and I(path) points to an existing array or array index, the module will tell Caddy to append/insert to the array
+      (using the APIs C(POST/PUT) method), instead of replacing the array/array index (API C(PATCH) method).
       See the L(Caddy API Documentation, https://caddyserver.com/docs/api\#patch-configpath) for details.
     type: bool
     default: no
@@ -83,8 +83,6 @@ EXAMPLES = r"""
 from ansible.module_utils.basic import AnsibleModule
 from ..module_utils.caddyserver import CaddyServer
 from ..module_utils.caddy_host_argspec import caddyhost_argspec
-
-from typing import Union, Dict, List
 
 
 def create_or_update_config(module: AnsibleModule, server: CaddyServer):

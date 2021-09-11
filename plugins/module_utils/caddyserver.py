@@ -5,8 +5,7 @@
 
 from __future__ import (absolute_import, division, print_function)
 from json.decoder import JSONDecodeError
-from sys import path
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Union
 
 __metaclass__ = type
 
@@ -35,19 +34,19 @@ class CaddyServer:
         return self._make_request("load", "POST", data=config, return_error=return_error)
 
     def config_get(self, path: str, return_error=False):
-        return self._make_request(f"config/{path}", return_error=return_error)
+        return self._make_request(f"config/{path.lstrip('/')}", return_error=return_error)
 
-    def config_put(self, path, config, return_error=False):
-        return self._make_request(f"config/{path}", "PUT", data=config, return_error=return_error)
+    def config_put(self, path: str, config, return_error=False):
+        return self._make_request(f"config/{path.lstrip('/')}", "PUT", data=config, return_error=return_error)
 
-    def config_post(self, path, config, return_error=False):
-        return self._make_request(f"config/{path}", "POST", data=config, return_error=return_error)
+    def config_post(self, path: str, config, return_error=False):
+        return self._make_request(f"config/{path.lstrip('/')}", "POST", data=config, return_error=return_error)
 
-    def config_patch(self, path, config, return_error=False):
-        return self._make_request(f"config/{path}", "PATCH", data=config, return_error=return_error)
+    def config_patch(self, path: str, config, return_error=False):
+        return self._make_request(f"config/{path.lstrip('/')}", "PATCH", data=config, return_error=return_error)
 
-    def config_delete(self, path, return_error=False):
-        return self._make_request(f"config/{path}", "DELETE", return_error=return_error)
+    def config_delete(self, path: str, return_error=False):
+        return self._make_request(f"config/{path.lstrip('/')}", "DELETE", return_error=return_error)
 
     def _make_request(self, path: str, method: str = "GET", data=None, return_error=False) -> Union[None, Dict, List, str, int, bool]:
         """
@@ -77,13 +76,14 @@ class CaddyServer:
                 self.module.fail_json(msg=f"Invalid HTTP method for accessing the Caddy API: {method}")
                 return
         except (requests.exceptions.RequestException, ConnectionError) as e:
-            self.module.fail_json(msg=f"Error accessing the Caddy API: {repr(e)}")
+            self.module.fail_json(msg=f"Error accessing the Caddy API: {repr(e)}", url=url, method=method)
             return
 
         if not r.ok:
             error = r.json()
             if not return_error:
-                self.module.fail_json(msg=f"Error durning processing of the request ({r.reason}): {error['error']}")
+                self.module.fail_json(
+                    msg=f"Error durning processing of the request ({r.reason}): {error['error']}", url=url, method=method)
             else:
                 error["status_code"] = r.status_code
                 return error
