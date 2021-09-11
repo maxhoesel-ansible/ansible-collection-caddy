@@ -1,0 +1,19 @@
+- name: Check if caddy is already installed
+  stat:
+    path: /etc/caddy/.installed
+  register: caddy_install
+
+- block:
+  - name: Install Caddy
+    include_role:
+      name: maxhoesel.caddy.caddy_server
+    vars:
+      caddy_apply_config: no
+  - name: Create installed flag
+    file:
+      path: /etc/caddy/.installed
+      owner: root
+      group: root
+      mode: "644"
+      state: present
+  when: not caddy_install.stat.exists

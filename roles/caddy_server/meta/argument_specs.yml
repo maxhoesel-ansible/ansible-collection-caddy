@@ -1,0 +1,23 @@
+argument_specs:
+  main:
+    short_description: Main entrypoint
+    options:
+      caddy_apply_config:
+        description: Whether to apply the given caddy configuration. Set to false if you only want to install Caddy.
+        type: bool
+        default: yes
+      caddy_config_mode:
+        description: Whether to use the JSON API or a Caddyfile for configuration
+        type: str
+        default: json
+        choices:
+          - json
+          - Caddyfile
+      caddy_json_config:
+        description: Caddy configuration in JSON format. Must be a dict
+        type: dict
+        default: {}
+      caddy_caddyfile:
+        description: Contents of the Caddyfile. Must be a string literal
+        type: str
+        default: ""

@@ -1,0 +1,7 @@
+---
+- include: check.yml
+
+- include: "install_{{ ansible_os_family | lower }}.yml"
+
+- include: "config_{{ caddy_config_mode }}.yml"
+  when: caddy_apply_config

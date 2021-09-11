@@ -1,0 +1,5 @@
+---
+caddy_apply_config: yes
+caddy_config_mode: json
+caddy_json_config: {}
+caddy_caddyfile: ""

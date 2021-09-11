@@ -1,0 +1,66 @@
+- name: Try to load basic root configuration
+  maxhoesel.caddy.caddy_config:
+    path: ""
+    config: "{{ original_config }}"
+
+- name: Test update with PATCH
+  maxhoesel.caddy.caddy_config:
+    path: /config/apps/servers/example
+    config:
+      listen:
+        - ":80"
+      routes:
+        - handle:
+          - handler: "static_response"
+            body: "Different Message!"
+- name: Test idempotency of update with PATCH
+  maxhoesel.caddy.caddy_config:
+    path: /config/apps/servers/example
+    config:
+      listen:
+        - ":80"
+      routes:
+        - handle:
+          - handler: "static_response"
+            body: "Different Message!"
+  register: patch_change
+- name: Verify that PATCH update is idempotent
+  assert:
+    that: not patch_change.changed
+
+- name: Test appending to array with POST
+  maxhoesel.caddy.caddy_config:
+    append: yes
+    path: /config/apps/servers/example/listen
+    config:
+      - ":2345"
+- name: Test insertion into array with PUT
+  maxhoesel.caddy.caddy_config:
+    append: yes
+    path: /config/apps/servers/example/listen/0
+    config:
+      - ":3456"
+
+- name: Test deletion
+  maxhoesel.caddy.caddy_config:
+    path: /config/apps/servers/example/listen/1
+    state: absent
+- name: Test idempotency
+  maxhoesel.caddy.caddy_config:
+    path: /config/apps/servers/example/listen/1
+    state: absent
+
+- name: Get current config
+  maxhoesel.caddy.caddy_config_info:
+    path: ""
+  register: current_config
+
+- debug:
+    var: current_config
+- name: Verify that current config is as expected
+  assert:
+    that: current_config.config == expected_config
+
+- name: Remove config (cleanup)
+  maxhoesel.caddy.caddy_load:
+    config: {}

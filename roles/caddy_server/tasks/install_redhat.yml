@@ -1,0 +1,13 @@
+- name: Requirements are installed
+  dnf:
+    name:
+      - dnf-command(copr)
+      - python3-requests
+
+- name: Caddy repository is enabled
+  community.general.copr:
+    name: "@caddy/caddy"
+
+- name: Caddy is installed
+  dnf:
+    name: caddy

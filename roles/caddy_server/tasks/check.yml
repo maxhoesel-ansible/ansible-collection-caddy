@@ -1,0 +1,5 @@
+---
+- name: Verify that caddy_config_mode is valid
+  assert:
+    that: caddy_config_mode in ["json", "Caddyfile"]
+  when: ansible_version.string is version('2.11.1', '<')
