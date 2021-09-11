@@ -84,8 +84,6 @@ from ansible.module_utils.basic import AnsibleModule
 from ..module_utils.caddyserver import CaddyServer
 from ..module_utils.caddy_host_argspec import caddyhost_argspec
 
-from typing import Union, Dict, List
-
 
 def create_or_update_config(module: AnsibleModule, server: CaddyServer):
     """

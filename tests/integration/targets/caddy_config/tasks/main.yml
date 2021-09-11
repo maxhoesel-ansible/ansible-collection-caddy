@@ -5,7 +5,7 @@
 
 - name: Test update with PATCH
   maxhoesel.caddy.caddy_config:
-    path: /config/apps/servers/example
+    path: apps/http/servers/example
     config:
       listen:
         - ":80"
@@ -15,7 +15,7 @@
             body: "Different Message!"
 - name: Test idempotency of update with PATCH
   maxhoesel.caddy.caddy_config:
-    path: /config/apps/servers/example
+    path: apps/http/servers/example
     config:
       listen:
         - ":80"
@@ -31,23 +31,21 @@
 - name: Test appending to array with POST
   maxhoesel.caddy.caddy_config:
     append: yes
-    path: /config/apps/servers/example/listen
-    config:
-      - ":2345"
+    path: apps/http/servers/example/listen
+    config: ":2345"
 - name: Test insertion into array with PUT
   maxhoesel.caddy.caddy_config:
     append: yes
-    path: /config/apps/servers/example/listen/0
-    config:
-      - ":3456"
+    path: apps/http/servers/example/listen/0
+    config: ":3456"
 
 - name: Test deletion
   maxhoesel.caddy.caddy_config:
-    path: /config/apps/servers/example/listen/1
+    path: apps/http/servers/example/listen/1
     state: absent
 - name: Test idempotency
   maxhoesel.caddy.caddy_config:
-    path: /config/apps/servers/example/listen/1
+    path: apps/http/servers/example/listen/1
     state: absent
 
 - name: Get current config

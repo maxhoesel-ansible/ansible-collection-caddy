@@ -17,7 +17,6 @@ expected_config:
         example:
           listen:
             - ":3456"
-            - ":2345"
           routes:
             - handle:
               - handler: "static_response"
