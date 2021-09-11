@@ -53,8 +53,6 @@
     path: ""
   register: current_config
 
-- debug:
-    var: current_config
 - name: Verify that current config is as expected
   assert:
     that: current_config.config == expected_config
