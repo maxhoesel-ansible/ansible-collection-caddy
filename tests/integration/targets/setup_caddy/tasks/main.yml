@@ -15,5 +15,5 @@
       owner: root
       group: root
       mode: "644"
-      state: present
+      state: file
   when: not caddy_install.stat.exists
