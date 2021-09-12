@@ -1,8 +1,7 @@
 # maxhoesel.caddy - Ansible Collection for the Cadyy webserver
 
 ![Release](https://img.shields.io/github/v/release/maxhoesel/ansible-collection-caddy)
-![CI Status (Roles)](https://img.shields.io/github/workflow/status/maxhoesel/ansible-collection-caddy/CI%20Roles/main)
-![CI Status (Modules)](https://img.shields.io/github/workflow/status/maxhoesel/ansible-collection-caddy/CI%20Modules/main)
+![CI Status)](https://img.shields.io/github/workflow/status/maxhoesel/ansible-collection-caddy/CI/main)
 ![License](https://img.shields.io/github/license/maxhoesel/ansible-collection-caddy)
 
 An Ansible collection containing roles/modules to install, configure and interact with the [caddy webserver](https://github.com/caddyserver/caddy).
