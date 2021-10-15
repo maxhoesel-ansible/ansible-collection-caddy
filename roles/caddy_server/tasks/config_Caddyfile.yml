@@ -1,3 +1,12 @@
+- name: Caddyfile is present
+  template:
+    src: Caddyfile.j2
+    dest: "{{ caddy_caddyfile_dest }}"
+    owner: root
+    group: root
+    mode: "644"
+  notify: Reload Caddy
+
 - name: Caddy JSON/API service is stopped and disabled
   systemd:
     name: caddy-api
@@ -9,12 +18,3 @@
     name: caddy
     state: started
     enabled: yes
-
-- name: Caddyfile is present
-  template:
-    src: Caddyfile.j2
-    dest: "{{ caddy_caddyfile_dest }}"
-    owner: root
-    group: root
-    mode: "644"
-  notify: Reload Caddy
