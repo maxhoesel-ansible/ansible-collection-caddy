@@ -1,4 +1,4 @@
-# maxhoesel.caddy - Ansible Collection for the Cadyy webserver
+# maxhoesel.caddy - Ansible Collection for the Caddy webserver
 
 ![Release](https://img.shields.io/github/v/release/maxhoesel/ansible-collection-caddy)
 ![CI Status)](https://img.shields.io/github/workflow/status/maxhoesel/ansible-collection-caddy/CI/main)
