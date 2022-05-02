@@ -85,7 +85,7 @@ from ..module_utils.caddyserver import CaddyServer
 from ..module_utils.caddy_host_argspec import caddyhost_argspec
 
 
-def create_or_update_config(module: AnsibleModule, server: CaddyServer):
+def create_or_update_config(module, server):
     """
     Creates or updates the configuration at the given path.
     Returns a result dictionary for module.exit_json()
@@ -111,7 +111,7 @@ def create_or_update_config(module: AnsibleModule, server: CaddyServer):
     return {"changed": False}
 
 
-def delete_config(module: AnsibleModule, server: CaddyServer):
+def delete_config(module, server):
     """
     Deletes the configuration at path if configuration is present.
     If force is set, will always push the configuration, even if no change would be made.
@@ -124,7 +124,7 @@ def delete_config(module: AnsibleModule, server: CaddyServer):
             # The object doesn't exist, nothing to delete
             return {"changed": False}
         else:
-            module.fail_json(msg=f"Error while retrieving current configuration: {current_config_or_error['error']}")
+            module.fail_json(msg="Error while retrieving current configuration: {current_config_or_error['error']}".format(**locals()))
     server.config_delete(path)
     return {"changed": True}
 
@@ -137,7 +137,8 @@ def run_module():
         path=dict(type="path", aliases=["name"], required=True),
         state=dict(type="str", choices=["present", "absent"], default="present")
     )
-    module = AnsibleModule(argument_spec={**module_args, **caddyhost_argspec}, supports_check_mode=True)
+    module_args.update(caddyhost_argspec)
+    module = AnsibleModule(module_args, supports_check_mode=True)
 
     server = CaddyServer(module, module.params["caddy_host"])
 

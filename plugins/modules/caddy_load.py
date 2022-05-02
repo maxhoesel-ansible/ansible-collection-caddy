@@ -62,7 +62,8 @@ def run_module():
         content=dict(aliases=["config", "value"], type="json"),
         force=dict(type="bool", default=False),
     )
-    module = AnsibleModule(argument_spec={**module_args, **caddyhost_argspec}, supports_check_mode=True)
+    module_args.update(caddyhost_argspec)
+    module = AnsibleModule(module_args, supports_check_mode=True)
 
     server = CaddyServer(module, module.params["caddy_host"])
 
