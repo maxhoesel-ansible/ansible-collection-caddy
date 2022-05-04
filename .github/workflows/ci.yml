@@ -48,24 +48,29 @@ jobs:
   modules:
     name: "Modules"
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - 2.7
+          - 3.6
     steps:
       - name: Check out codebase
         uses: actions/checkout@v2
 
-      - name: Set up Python 3
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: "3.6"
+          python-version: ${{ matrix.python-version }}
       - name: Set up pip
-        run: pip3 install --upgrade pip
+        run: python -m pip install --upgrade pip
 
       - name: Install tox
         run: sudo apt update && sudo apt install -y tox
 
       - name: Run sanity tests
-        run: tox -e sanity -- --docker --color -v --python 3.6
+        run: tox -e sanity -- --docker --color -v --python ${{ matrix.python-version }}
       - name: Run integration tests
-        run: tox -e integration -- --docker --color -v --python 3.6
+        run: tox -e integration -- --docker --color -v --python ${{ matrix.python-version }}
 
 
   discover-scenarios:
