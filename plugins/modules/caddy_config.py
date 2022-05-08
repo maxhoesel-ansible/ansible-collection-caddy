@@ -108,7 +108,9 @@ def create_or_update_config(module, server):
     current_config = server.config_get(path)
 
     if current_config != config or module.params["force"]:
-        if module.params["append"] and path.split("/")[-1].isdigit():
+        if module.check_mode:
+            pass
+        elif module.params["append"] and path.split("/")[-1].isdigit():
             # Insert at array index with PUT
             server.config_put(path, config, create_path=module.params["create_path"])
         elif module.params["append"]:

@@ -4,6 +4,12 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
+<< << << < HEAD
+== == == =
+from importlib.util import module_for_loader
+from json.decoder import JSONDecodeError
+from typing import Dict, List, Union
+>>>>>> > refactor: move check_mode out of caddyserver
 
 __metaclass__ = type
 
@@ -66,9 +72,6 @@ class CaddyServer(object):
         If return_error is set and an error occurs, the status code and error body will be returned. If False, the module will fail.
         """
         url = "{self.addr}/{path}".format(self=self, path=path)
-
-        if self.module.check_mode and method != "GET":
-            return {}
 
         try:
             if method == "GET":

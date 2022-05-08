@@ -69,7 +69,8 @@ def run_module():
 
     current_config = server.config_get("")
     if current_config != module.params["config"] or module.params["force"]:
-        server.config_load(module.params["config"])
+        if not module.check_mode:
+            server.config_load(module.params["config"])
         module.exit_json(changed=True)
     module.exit_json(changed=False)
 
