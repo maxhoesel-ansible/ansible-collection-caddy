@@ -26,6 +26,14 @@ options:
       See the L(Caddy API Documentation, https://caddyserver.com/docs/api\#patch-configpath) for details.
     type: bool
     default: no
+  create_path:
+    description: >
+      Whether to create the path pointing to the configuration if it doesn't exist yet.
+      For example, if I(path=apps/http/servers/myservice) C(apps/http/servers) does not exist yet, the required path entries will be created.
+      Note that any digit path segments are treated as array indices.
+    type: bool
+    default: yes
+    version_added: '0.2.0'
   content:
     aliases:
       - config
@@ -97,16 +105,20 @@ def create_or_update_config(module, server):
     config = module.params["config"]
 
     # We first test for an existing config object and create it right away if none is found
-    current_config = server.config_get(path, return_error=True)
+    current_config = server.config_get(path)
 
     if current_config != config or module.params["force"]:
         if module.params["append"] and path.split("/")[-1].isdigit():
             # Insert at array index with PUT
-            server.config_put(path, config)
+            server.config_put(path, config, create_path=module.params["create_path"])
         elif module.params["append"]:
-            server.config_post(path, config)
+            # Other appends, post
+            server.config_post(path, config, create_path=module.params["create_path"])
+        elif current_config:
+            server.config_patch(path, config, create_path=module.params["create_path"])
         else:
-            server.config_patch(path, config)
+            # current config doesn't exist, create
+            server.config_put(path, config, create_path=module.params["create_path"])
         return {"changed": True}
     return {"changed": False}
 
@@ -118,14 +130,11 @@ def delete_config(module, server):
     """
     path = module.params["path"]
 
-    current_config_or_error = server.config_get(path, return_error=True)
-    if "status_code" in current_config_or_error and not module.params["force"]:
-        if "invalid traversal path at" in current_config_or_error.get("error", False):
-            # The object doesn't exist, nothing to delete
-            return {"changed": False}
-        else:
-            module.fail_json(msg="Error while retrieving current configuration: {curr_cfg_or_err}".format(curr_cfg_or_err=current_config_or_error['error']))
-    server.config_delete(path)
+    current_config = server.config_get(path)
+    if current_config is None:
+        return {"changed": False}
+    elif not module.check_mode:
+        server.config_delete(path)
     return {"changed": True}
 
 
@@ -133,6 +142,7 @@ def run_module():
     module_args = dict(
         append=dict(type="bool", default=False),
         content=dict(aliases=["config", "value"], type="json"),
+        create_path=dict(type="bool", default=True),
         force=dict(type="bool", default=False),
         path=dict(type="path", aliases=["name"], required=True),
         state=dict(type="str", choices=["present", "absent"], default="present")
