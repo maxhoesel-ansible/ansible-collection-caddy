@@ -1,14 +1,4 @@
-original_config:
-  apps:
-    http:
-      servers:
-        example:
-          listen:
-            - ":80"
-          routes:
-            - handle:
-              - handler: "static_response"
-                body: "Hello World!"
+original_config: {}
 
 expected_config:
   apps:

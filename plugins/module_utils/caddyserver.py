@@ -13,9 +13,6 @@ try:
 except ImportError:
     HAS_REQUESTS = False
 
-from ansible.module_utils.connection import ConnectionError
-from ansible.module_utils.basic import AnsibleModule
-
 
 class CaddyServer(object):
 
@@ -29,23 +26,36 @@ class CaddyServer(object):
         else:
             self.addr = addr
 
-    def config_load(self, config, return_error=False):
-        return self._make_request("load", "POST", data=config, return_error=return_error)
+    def config_load(self, config):
+        return self._make_request("load", "POST", data=config)
 
-    def config_get(self, path, return_error=False):
-        return self._make_request("config/{path}".format(path=path.lstrip('/')), return_error=return_error)
+    def config_get(self, path: str):
+        res = self._make_request("config/{path}".format(path=path.lstrip('/')), return_error=True)
+        if res is not None and "status_code" in res:
+            if "invalid traversal path at" in res.get("error", False):
+                return None
+            else:
+                self.module.exit_json(msg="Error while getting configuration at {path}: {err}".format(
+                    path=path, err=res.get('error', '')))
+        return res
 
-    def config_put(self, path, config, return_error=False):
-        return self._make_request("config/{path}".format(path=path.lstrip('/')), "PUT", data=config, return_error=return_error)
+    def config_put(self, path: str, config, create_path=True):
+        if create_path:
+            self._create_path(path)
+        return self._make_request("config/{path}".format(path=path.lstrip('/')), "PUT", data=config)
 
-    def config_post(self, path, config, return_error=False):
-        return self._make_request("config/{path}".format(path=path.lstrip('/')), "POST", data=config, return_error=return_error)
+    def config_post(self, path: str, config, create_path=True):
+        if create_path:
+            self._create_path(path)
+        return self._make_request("config/{path}".format(path=path.lstrip('/')), "POST", data=config)
 
-    def config_patch(self, path, config, return_error=False):
-        return self._make_request("config/{path}".format(path=path.lstrip('/')), "PATCH", data=config, return_error=return_error)
+    def config_patch(self, path: str, config, create_path=True):
+        if create_path:
+            self._create_path(path)
+        return self._make_request("config/{path}".format(path=path.lstrip('/')), "PATCH", data=config)
 
-    def config_delete(self, path, return_error=False):
-        return self._make_request("config/{path}".format(path=path.lstrip('/')), "DELETE", return_error=return_error)
+    def config_delete(self, path: str):
+        return self._make_request("config/{path}".format(path=path.lstrip('/')), "DELETE")
 
     def _make_request(self, path, method="GET", data=None, return_error=False):
         """
@@ -72,11 +82,12 @@ class CaddyServer(object):
             elif method == "DELETE":
                 r = requests.delete(url, json=data)
             else:
-                self.module.fail_json(msg="Invalid HTTP method for accessing the Caddy API: {method}".format(method=method))
+                self.module.fail_json(
+                    msg="Invalid HTTP method for accessing the Caddy API: {method}".format(method=method))
                 return
-        # except (requests.exceptions.RequestException, ConnectionError), e:
         except (requests.exceptions.RequestException, ConnectionError) as e:
-            self.module.fail_json(msg="Error accessing the Caddy API: {error}".format(error=repr(e)), url=url, method=method)
+            self.module.fail_json(msg="Error accessing the Caddy API: {error}".format(
+                error=repr(e)), url=url, method=method)
             return
 
         if not r.ok:
@@ -93,3 +104,29 @@ class CaddyServer(object):
         except ValueError:
             return
         return json
+
+    def _create_path(self, path):
+        """
+        Recursively walks through a caddy config path and creates objects until the final path object can be created.
+        Does nothing if the first object in the path already exists.
+        Does not create the final object in the path
+        Path segments that are integers will be treated as array indices.
+
+        For example, if the provided path is apps/http/servers/example,
+        this will attempt to create apps, then apps/http, then apps/http/servers with content {}.
+
+        Args:
+            path (str): The path to create
+        """
+        segments = path.split("/")
+        if len(segments) == 0 or self.config_get(path):
+            return
+
+        present = []
+        while len(segments) > 1:
+            current_path = "/".join(present) + "/" + segments[0]
+            if not self.config_get(current_path):
+                self.config_put("/".join(present) + "/" + segments[0],
+                                [] if segments[1].isdigit() else {}, create_path=False)
+            present.append(segments[0])
+            segments.pop(0)
