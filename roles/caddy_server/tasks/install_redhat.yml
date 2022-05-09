@@ -1,13 +1,14 @@
+---
 - name: Requirements are installed
-  dnf:
+  package:
     name:
+      - "{{ 'python3-requests' if ansible_python_version is version('3', '>=') else 'python-requests' }}"
       - dnf-command(copr)
-      - python3-requests
 
 - name: Caddy repository is enabled
   community.general.copr:
     name: "@caddy/caddy"
 
 - name: Caddy is installed
-  dnf:
+  package:
     name: caddy
