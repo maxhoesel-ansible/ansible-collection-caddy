@@ -49,6 +49,7 @@ jobs:
     name: "Modules"
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version:
           - 2.7
@@ -63,7 +64,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Set up pip
-        run: python -m pip install --upgrade pip requests
+        run: python -m pip install --upgrade pip
 
       - name: Install tox
         run: sudo apt update && sudo apt install -y tox
