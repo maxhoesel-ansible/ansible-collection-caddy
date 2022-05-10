@@ -1,4 +1,16 @@
 
+<a name="v0.2.0"></a>
+## [v0.2.0] - 2022-05-10
+### Bug Fixes
+- lint ([9cda134](https://github.com/maxhoesel/ansible-collection-caddy/commit/9cda134)) [gardarvt]
+
+### Documentation
+- Be more specific about what python versions are supported ([6c9ab15](https://github.com/maxhoesel/ansible-collection-caddy/commit/6c9ab15)) [gardarvt]
+
+### Features
+- **caddy_config:** add create_path argument ([b0124bc](https://github.com/maxhoesel/ansible-collection-caddy/commit/b0124bc)) [Max Hösel]
+
+
 <a name="v0.1.1"></a>
 ## [v0.1.1] - 2021-10-15
 ### Bug Fixes
@@ -11,4 +23,5 @@
 <a name="v0.1.0"></a>
 ## v0.1.0 - 2021-09-11
 
+[v0.2.0]: https://github.com/maxhoesel/ansible-collection-caddy/compare/v0.1.1...v0.2.0
 [v0.1.1]: https://github.com/maxhoesel/ansible-collection-caddy/compare/v0.1.0...v0.1.1
