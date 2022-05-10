@@ -124,7 +124,7 @@ def delete_config(module, server):
             # The object doesn't exist, nothing to delete
             return {"changed": False}
         else:
-            module.fail_json(msg="Error while retrieving current configuration: {current_config_or_error}".format(current_config_or_error=current_config_or_error['error']))
+            module.fail_json(msg="Error while retrieving current configuration: {curr_cfg_or_err}".format(curr_cfg_or_err=current_config_or_error['error']))
     server.config_delete(path)
     return {"changed": True}
 
