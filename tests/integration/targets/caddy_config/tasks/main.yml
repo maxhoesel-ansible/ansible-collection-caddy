@@ -1,12 +1,12 @@
 - name: Try to load basic root configuration
   maxhoesel.caddy.caddy_config:
     path: ""
-    config: "{{ original_config }}"
+    config: {}
 
 - name: Test creation
   maxhoesel.caddy.caddy_config:
     path: apps/http/servers/example
-    config:
+    value:
       listen:
         - ":80"
       routes:
@@ -16,7 +16,7 @@
 - name: Test idempotency of update
   maxhoesel.caddy.caddy_config:
     path: apps/http/servers/example
-    config:
+    content:
       listen:
         - ":80"
       routes:

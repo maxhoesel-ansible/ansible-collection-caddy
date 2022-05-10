@@ -41,7 +41,7 @@ options:
     description: >
       Content to push to the specified I(path). Must be a dict or list corresponding to the API JSON format.
       Required if I(state=present).
-    type: json
+    type: raw
   force:
     description: >
         By default, this module only pushes configurations if changes have been made compared to the currently running config.
@@ -102,25 +102,25 @@ def create_or_update_config(module, server):
     If force is set, will always push the configuration, even if no change would be made.
     """
     path = module.params['path']
-    config = module.params["config"]
+    content = module.params["content"]
 
     # We first test for an existing config object and create it right away if none is found
     current_config = server.config_get(path)
 
-    if current_config != config or module.params["force"]:
+    if current_config != content or module.params["force"]:
         if module.check_mode:
             pass
         elif module.params["append"] and path.split("/")[-1].isdigit():
             # Insert at array index with PUT
-            server.config_put(path, config, create_path=module.params["create_path"])
+            server.config_put(path, content, create_path=module.params["create_path"])
         elif module.params["append"]:
             # Other appends, post
-            server.config_post(path, config, create_path=module.params["create_path"])
+            server.config_post(path, content, create_path=module.params["create_path"])
         elif current_config:
-            server.config_patch(path, config, create_path=module.params["create_path"])
+            server.config_patch(path, content, create_path=module.params["create_path"])
         else:
             # current config doesn't exist, create
-            server.config_put(path, config, create_path=module.params["create_path"])
+            server.config_put(path, content, create_path=module.params["create_path"])
         return {"changed": True}
     return {"changed": False}
 
@@ -143,7 +143,7 @@ def delete_config(module, server):
 def run_module():
     module_args = dict(
         append=dict(type="bool", default=False),
-        content=dict(aliases=["config", "value"], type="json"),
+        content=dict(aliases=["config", "value"], type="raw"),
         create_path=dict(type="bool", default=True),
         force=dict(type="bool", default=False),
         path=dict(type="path", aliases=["name"], required=True),
