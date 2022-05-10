@@ -23,7 +23,7 @@ options:
       - config
       - value
     description: Configuration for caddy. Needs to be a mapping corresponding to the API JSON format.
-    type: json
+    type: raw
   force:
     description: >
         By default, this module only pushes configurations if changes have been made compared to the currently running config.
@@ -59,7 +59,7 @@ from ..module_utils.caddy_host_argspec import caddyhost_argspec
 
 def run_module():
     module_args = dict(
-        content=dict(aliases=["config", "value"], type="json"),
+        content=dict(aliases=["config", "value"], type="raw"),
         force=dict(type="bool", default=False),
     )
     module_args.update(caddyhost_argspec)
@@ -68,9 +68,9 @@ def run_module():
     server = CaddyServer(module, module.params["caddy_host"])
 
     current_config = server.config_get("")
-    if current_config != module.params["config"] or module.params["force"]:
+    if current_config != module.params["content"] or module.params["force"]:
         if not module.check_mode:
-            server.config_load(module.params["config"])
+            server.config_load(module.params["content"])
         module.exit_json(changed=True)
     module.exit_json(changed=False)
 

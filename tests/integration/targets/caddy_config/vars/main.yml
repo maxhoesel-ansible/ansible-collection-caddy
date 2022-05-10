@@ -1,5 +1,3 @@
-original_config: {}
-
 expected_config:
   apps:
     http:
