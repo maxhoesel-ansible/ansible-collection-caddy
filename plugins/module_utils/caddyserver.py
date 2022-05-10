@@ -4,12 +4,6 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
-<< << << < HEAD
-== == == =
-from importlib.util import module_for_loader
-from json.decoder import JSONDecodeError
-from typing import Dict, List, Union
->>>>>> > refactor: move check_mode out of caddyserver
 
 __metaclass__ = type
 
@@ -35,7 +29,7 @@ class CaddyServer(object):
     def config_load(self, config):
         return self._make_request("load", "POST", data=config)
 
-    def config_get(self, path: str):
+    def config_get(self, path):
         res = self._make_request("config/{path}".format(path=path.lstrip('/')), return_error=True)
         if res is not None and "status_code" in res:
             if "invalid traversal path at" in res.get("error", False):
@@ -45,22 +39,22 @@ class CaddyServer(object):
                     path=path, err=res.get('error', '')))
         return res
 
-    def config_put(self, path: str, config, create_path=True):
+    def config_put(self, path, config, create_path=True):
         if create_path:
             self._create_path(path)
         return self._make_request("config/{path}".format(path=path.lstrip('/')), "PUT", data=config)
 
-    def config_post(self, path: str, config, create_path=True):
+    def config_post(self, path, config, create_path=True):
         if create_path:
             self._create_path(path)
         return self._make_request("config/{path}".format(path=path.lstrip('/')), "POST", data=config)
 
-    def config_patch(self, path: str, config, create_path=True):
+    def config_patch(self, path, config, create_path=True):
         if create_path:
             self._create_path(path)
         return self._make_request("config/{path}".format(path=path.lstrip('/')), "PATCH", data=config)
 
-    def config_delete(self, path: str):
+    def config_delete(self, path):
         return self._make_request("config/{path}".format(path=path.lstrip('/')), "DELETE")
 
     def _make_request(self, path, method="GET", data=None, return_error=False):
