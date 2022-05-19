@@ -15,10 +15,11 @@ To begin development on this collection, you need to have the following dependen
 ## Quick Start
 
 1. Fork the repository and clone it to your local machine
-2. Run `./scripts/setup.sh` to configure a local dev environment (virtualenv) with a commit hook
-3. Make your changes and commit them to a new branch
-4. Run the tests locally with `./scripts/test.sh`. This will run the full test suite that also runs in the CI
-5. Once you're done, push your changes and open a PR
+2. Run `./scripts/setup.sh` to configure a local dev environment (virtualenv) with a commit hook and the required Ansible dependencies.
+3. Activate the virtualenv with `source .venv/bin/activate`
+4. Make your changes and commit them to a new branch
+5. Run the tests locally with `./scripts/test.sh`. This will run the full test suite that also runs in the CI
+6. Once you're done, push your changes and open a PR
 
 
 ## About commit messages and structure
