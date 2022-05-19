@@ -4,7 +4,7 @@ set -e pipefail
 
 python3 -m venv .venv
 source .venv/bin/activate
-python3 -m pip install 'gitlint>=0.15.0,<0.16.0'
+python3 -m pip install gitlint ansible ansible-test tox
 
 gitlint install-hook
 
