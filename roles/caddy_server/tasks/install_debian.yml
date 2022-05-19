@@ -1,6 +1,6 @@
 ---
 - name: Requirements are installed
-  package:
+  ansible.builtin.package:
     name:
       - debian-keyring
       - debian-archive-keyring
@@ -8,12 +8,18 @@
       - "{{ 'python3-requests' if ansible_python_version is version('3', '>=') else 'python-requests' }}"
     update_cache: yes
 
-- name: Caddy repo key is installed
-  apt_key:
+- name: Old apt-key trusted key is absent
+  ansible.builtin.apt_key:
+    id: 65760C51EDEA2017CEA2CA15155B6D79CA56EA34
+    state: absent
+
+- name: APT Key is stored in keyring
+  ansible.builtin.apt_key:
     url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
+    keyring: /usr/share/keyrings/caddy-stable-archive-keyring.gpg
 
 - name: Caddy repository is enabled
-  get_url:
+  ansible.builtin.get_url:
     url: https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt
     dest: /etc/apt/sources.list.d/caddy-stable.list
     owner: root
@@ -21,6 +27,6 @@
     mode: "644"
 
 - name: Caddy is installed
-  package:
+  ansible.builtin.package:
     name: caddy
     update_cache: yes
