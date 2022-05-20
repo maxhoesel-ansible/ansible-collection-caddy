@@ -1,16 +1,4 @@
 ---
-- name: Old apt-key trusted key is absent
-  ansible.builtin.apt_key:
-    id: 65760C51EDEA2017CEA2CA15155B6D79CA56EA34
-    state: absent
-  register: old_install_present
-
-- name: Temporarily remove caddy repository to cleanup old key install method # noqa no-handler
-  ansible.builtin.file:
-    path: /etc/apt/sources.list.d/caddy-stable.list
-    state: absent
-  when: old_install_present.changed
-
 - name: Requirements are installed
   ansible.builtin.package:
     name:
@@ -18,7 +6,12 @@
       - debian-archive-keyring
       - apt-transport-https
       - "{{ 'python3-requests' if ansible_python_version is version('3', '>=') else 'python-requests' }}"
-    update_cache: yes
+
+- name: Old apt-key trusted key is absent
+  ansible.builtin.apt_key:
+    id: 65760C51EDEA2017CEA2CA15155B6D79CA56EA34
+    state: absent
+  register: old_install_present
 
 - name: APT Key is stored in keyring
   ansible.builtin.apt_key:
