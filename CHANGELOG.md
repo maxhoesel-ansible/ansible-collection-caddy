@@ -1,4 +1,10 @@
 
+<a name="v0.2.3"></a>
+## [v0.2.3] - 2022-05-20
+### Bug Fixes
+- **caddy_server:** fix install on existing systems ([1a7945a](https://github.com/maxhoesel/ansible-collection-caddy/commit/1a7945a)) [Max Hösel]
+
+
 <a name="v0.2.2"></a>
 ## [v0.2.2] - 2022-05-19
 ### Bug Fixes
@@ -35,6 +41,7 @@
 <a name="v0.1.0"></a>
 ## v0.1.0 - 2021-09-11
 
+[v0.2.3]: https://github.com/maxhoesel/ansible-collection-caddy/compare/v0.2.2...v0.2.3
 [v0.2.2]: https://github.com/maxhoesel/ansible-collection-caddy/compare/v0.2.1...v0.2.2
 [v0.2.1]: https://github.com/maxhoesel/ansible-collection-caddy/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/maxhoesel/ansible-collection-caddy/compare/v0.1.1...v0.2.0
