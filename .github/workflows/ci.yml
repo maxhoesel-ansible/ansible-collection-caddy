@@ -17,64 +17,54 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
       - name: Set up Python 3
         uses: actions/setup-python@v2
-        with:
-          python-version: "3.6"
-
       - name: Set up pip and install requirements
         run: |
-          pip3 install --upgrade pip
-          pip3 install 'gitlint>=0.15.0,<0.16.0' 'ansible>=4,<5' 'ansible-lint>=5,<6'
-          curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
 
-      - name: Build and install collection
+      - name: Run pre-commit checks
+        uses: pre-commit/action@v2.0.0
+
+  modules-sanity:
+    name: "Modules Sanity"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out codebase
+        uses: actions/checkout@v2
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
+      - name: Set up pip and install requirements
         run: |
-          ansible-galaxy collection build
-          ansible-galaxy collection install maxhoesel-caddy-*.tar.gz
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
 
-      - name: ansible-lint
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          ansible-lint -p | ./bin/reviewdog -efm="%f:%l: %m" -name="ansible-lint" -level=error -filter-mode="nofilter" -fail-on-error -reporter=github-check
+      - name: Run sanity tests
+        run: tox -e sanity -- --docker --color -v --python 3.6
 
-      - name: gitlint
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gitlint 2>&1 | ./bin/reviewdog -efm="%m" -reporter=github-pr-check -filter-mode=nofilter -fail-on-error -name="gitlint"
-
-  modules:
-    name: "Modules"
+  modules-integration:
+    needs: modules-sanity
+    name: "Modules Integration"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version:
-          - 2.7
-          - 3.6
+        target:
+          - docker:centos7
+          - docker:default,python=3.6
     steps:
       - name: Check out codebase
         uses: actions/checkout@v2
-
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3
         uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
+      - name: Set up pip and install requirements
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
 
-      - name: Set up pip
-        run: python -m pip install --upgrade pip
-
-      - name: Install tox
-        run: sudo apt update && sudo apt install -y tox
-
-      - name: Run sanity tests
-        run: tox -e sanity -- --docker --color -v --python ${{ matrix.python-version }}
       - name: Run integration tests
-        run: tox -e integration -- --docker --color -v --python ${{ matrix.python-version }}
-
+        run: tox -e integration -- --color -v --controller docker:default --target ${{ matrix.target }}
 
   discover-scenarios:
     runs-on: ubuntu-latest
@@ -85,12 +75,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Set up Python 3
         uses: actions/setup-python@v2
-        with:
-          python-version: "3.6"
-      - name: Install tox and initialize workdir
+      - name: Set up pip and install requirements
         run: |
-          sudo apt update && sudo apt install -y tox
-          tox -l
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Initialize tox
+        run: tox -l
+
       - name: Discover scenarios
         id: set-scenarios
         # Convert the tox scenario listing into a JSON/YAML list, filtering out any non-molecule/lint scenarios
@@ -109,23 +101,17 @@ jobs:
     steps:
       - name: Check out codebase
         uses: actions/checkout@v2
-
       - name: Set up Python 3
         uses: actions/setup-python@v2
-        with:
-          python-version: "3.6"
-      - name: Install ansible-base
+      - name: Set up pip and install requirements
         run: |
-          pip3 install --upgrade pip
-          pip3 install ansible-base
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
 
       - name: Build and install collection
         run: |
           ansible-galaxy collection build --force
           ansible-galaxy collection install *.tar.gz --force
-
-      - name: Install tox
-        run: sudo apt update && sudo apt install -y tox
 
       - name: Initialize tox
         run: tox -l

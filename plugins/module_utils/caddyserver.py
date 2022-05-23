@@ -57,13 +57,16 @@ class CaddyServer(object):
     def config_delete(self, path):
         return self._make_request("config/{path}".format(path=path.lstrip('/')), "DELETE")
 
+    # pylint: disable=inconsistent-return-statements
     def _make_request(self, path, method="GET", data=None, return_error=False):
         """
-        Makes a request to the Caddy API server and returns its content (None unless method is GET or an error occurred and return_error is True)
+        Makes a request to the Caddy API server and returns its content
+        (None unless method is GET or an error occurred and return_error is True)
         Path is a path relative to the Caddy API root.
         Method is any valid Caddy HTTP API Method ("GET", "POST", "PUT", "PATCH", "DELETE")
         Data is a valid data type for the Caddy API.
-        If return_error is set and an error occurs, the status code and error body will be returned. If False, the module will fail.
+        If return_error is set and an error occurs, the status code and error body will be returned.
+        If False, the module will fail.
         """
         url = "{self.addr}/{path}".format(self=self, path=path)
 
@@ -82,7 +85,7 @@ class CaddyServer(object):
                 self.module.fail_json(
                     msg="Invalid HTTP method for accessing the Caddy API: {method}".format(method=method))
                 return
-        except (requests.exceptions.RequestException, ConnectionError) as e:
+        except (requests.exceptions.RequestException, requests.ConnectionError) as e:
             self.module.fail_json(msg="Error accessing the Caddy API: {error}".format(
                 error=repr(e)), url=url, method=method)
             return
@@ -91,7 +94,8 @@ class CaddyServer(object):
             error = r.json()
             if not return_error:
                 self.module.fail_json(
-                    msg="Error durning processing of the request ({r.reason}): {error}".format(r=r, error=error['error']), url=url, method=method)
+                    msg="Error durning processing of the request ({r.reason}): {error}".format(
+                        r=r, error=error['error']), url=url, method=method)
             else:
                 error["status_code"] = r.status_code
                 return error

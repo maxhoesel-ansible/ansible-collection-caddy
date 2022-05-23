@@ -17,6 +17,7 @@ disable=[
     "too-few-public-methods",
     'wrong-import-position', # Ansible module best practices
     "consider-using-f-string", # not possible in py2
+    "useless-object-inheritance", #py2
     "I"
 ]
 
