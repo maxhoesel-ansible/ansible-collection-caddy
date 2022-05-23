@@ -1,3 +1,6 @@
+## Changelog Update
+
+You can find changelogs for newer versions on their GitHub release page
 
 <a name="v0.2.5"></a>
 ## [v0.2.5] - 2022-05-20
