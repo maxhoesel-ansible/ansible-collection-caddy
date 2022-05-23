@@ -98,7 +98,8 @@ def create_or_update_config(module, server):
     Creates or updates the configuration at the given path.
     Returns a result dictionary for module.exit_json()
 
-    If append is set, the POST method will be used, else, PATCH will be used. POST will append to an array at path, while PATCH wil overwrite it.
+    If append is set, the POST method will be used, else, PATCH will be used.
+    POST will append to an array at path, while PATCH wil overwrite it.
     If force is set, will always push the configuration, even if no change would be made.
     """
     path = module.params['path']

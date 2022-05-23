@@ -1,0 +1,12 @@
+# Development deps, useful for editor intellisense, etc.
+requests
+ansible-core
+
+# Linting & Formatting
+ansible-lint
+pylint
+autopep8
+pre-commit
+
+# Testing
+tox

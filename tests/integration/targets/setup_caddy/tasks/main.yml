@@ -7,8 +7,7 @@
   - name: Install Caddy
     include_role:
       name: maxhoesel.caddy.caddy_server
-    vars:
-      caddy_apply_config: no
+
   - name: Create installed flag file
     command: touch /etc/caddy/.installed
   when: not caddy_install.stat.exists
