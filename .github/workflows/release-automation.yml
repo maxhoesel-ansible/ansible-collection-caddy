@@ -66,4 +66,3 @@ jobs:
           branch: maintenance/version-bump
           labels: pr-nochangelog
           delete-branch: true
-          token: "{{ secrets.GITHUB_TOKEN }}"
