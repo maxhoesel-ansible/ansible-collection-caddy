@@ -4,7 +4,6 @@ offline: true
 exclude_paths:
   - tests/integration/targets/
   - .github/
-  - .chlog/
 
 skip_list:
   - 'fqcn-builtins'

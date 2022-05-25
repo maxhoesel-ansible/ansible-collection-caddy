@@ -3,7 +3,9 @@ authors:
 build_ignore:
 - '*.tar.gz'
 - .github
-- .chglog
+- .gitignore
+- .pre-commit-config.yaml
+- pyproject.toml
 - .venv
 dependencies:
   community.general: '>=2.0.0'
