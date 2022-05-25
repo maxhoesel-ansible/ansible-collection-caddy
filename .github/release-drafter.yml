@@ -1,0 +1,54 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: '⚠️ BREAKING CHANGES ⚠️'
+    labels:
+      - 'pr-breaking'
+  - title: 'Features/Enhancements'
+    labels:
+      - 'pr-feature'
+      - 'enhancement'
+  - title: 'Bug Fixes'
+    labels:
+      - 'fix'
+      - 'pr-bugfix'
+      - 'bug'
+  - title: 'Documentation'
+    labels:
+      - 'docs'
+  - title: 'Miscellaneous/Maintenance'
+    collapse-after: 3
+    labels:
+      - 'chore'
+
+exclude-labels:
+  - pr-nochangelog
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+
+version-resolver:
+  major:
+    labels:
+      - 'pr-breaking'
+  minor:
+    labels:
+      - 'pr-feature'
+      - 'enhancement'
+  patch:
+    labels:
+      - 'fix'
+      - 'pr-bugfix'
+      - 'bug'
+  default: patch
+
+template: |
+  ## Changes
+
+  $CHANGES
+footer: |
+  ## Contributors
+
+  This release contains contributions from the following authors:
+
+  $CONTRIBUTORS

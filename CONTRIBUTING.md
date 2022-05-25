@@ -58,17 +58,11 @@ Some additional hints:
 - All targets call the `setup_caddy` target via the dependency declared in `meta/main.yml`. This target installs a caddy server for the modules to run against.
 - See `targets/setup_caddy/defaults/main.yml` for some variables you can use in your tests
 
-## Release Workflow
+## Information for maintainers
 
-This project uses sematic versioning. Name versions accordingly.
+This project uses sematic versioning. Version numbers and  releases/changelogs are automatically generated using [release-drafter](https://github.com/release-drafter/release-drafter), utilizing pull request labels.
 
-For now, releases are simply tags on the main branch, with no separate release branch currently in use.
+When merging a pull request, make sure to select an appropriate label (pr-bugfix, pr-feature, etc.).
+release-drafter will automatically update the draft release changelog and the galaxy.yml version will be bumped if needed.
 
-To create a release, simply run the "Create Release" GitHub Action with the desired version number (e.g. "0.3.0").
-This action will:
-
-1. Bump the version number in `galaxy.yml`
-2. Update the changelog
-3. Commit the changes in a "Release" commit and push it
-4. Create a GitHub release (which will also create a tag at that commit)
-5. Build the collection and publish the new release on galaxy
+Once a draft release is published, collection packages will be added to the release and ansible-galaxy automatically.
