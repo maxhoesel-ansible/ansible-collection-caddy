@@ -49,9 +49,3 @@ template: |
   ## Changes
 
   $CHANGES
-footer: |
-  ## Contributors
-
-  This release contains contributions from the following authors:
-
-  $CONTRIBUTORS
