@@ -23,6 +23,9 @@ categories:
 
 exclude-labels:
   - pr-nochangelog
+exclude-contributors::
+  - github-actions
+  - github-actions[bot]
 
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&'
