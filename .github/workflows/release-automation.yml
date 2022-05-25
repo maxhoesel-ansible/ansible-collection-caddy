@@ -36,9 +36,9 @@ jobs:
       - name: GH Release
         uses: softprops/action-gh-release@v0.1.14
         with:
+          draft: yes
           files: |
             collection.tar.gz
-          name: ${{ steps.drafter.outputs.tag_name }}
           tag_name: ${{ steps.drafter.outputs.tag_name }}
 
   bump-galaxy-version:
