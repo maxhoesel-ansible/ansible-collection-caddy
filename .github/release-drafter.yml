@@ -16,14 +16,18 @@ categories:
   - title: 'Documentation'
     labels:
       - 'docs'
-  - title: 'Miscellaneous/Maintenance'
-    collapse-after: 3
-    labels:
-      - 'chore'
 
+include-labels:
+  - pr-breaking
+  - pr-feature
+  - enhancement
+  - fix
+  - pr-bugfix
+  - bug
+  - docs
 exclude-labels:
   - pr-nochangelog
-exclude-contributors::
+exclude-contributors:
   - github-actions
   - github-actions[bot]
 
