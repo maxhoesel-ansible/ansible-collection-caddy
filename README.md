@@ -1,8 +1,8 @@
 # maxhoesel.caddy - Ansible Collection for the Caddy webserver
 
-![Release](https://img.shields.io/github/v/release/maxhoesel/ansible-collection-caddy)
-![CI Status)](https://img.shields.io/github/workflow/status/maxhoesel/ansible-collection-caddy/CI/main)
-![License](https://img.shields.io/github/license/maxhoesel/ansible-collection-caddy)
+![Release](https://img.shields.io/github/v/release/maxhoesel-ansible/ansible-collection-caddy)
+![CI Status)](https://img.shields.io/github/workflow/status/maxhoesel-ansible/ansible-collection-caddy/CI/main)
+![License](https://img.shields.io/github/license/maxhoesel-ansible/ansible-collection-caddy)
 
 An Ansible collection containing roles/modules to install, configure and interact with the [caddy webserver](https://github.com/caddyserver/caddy).
 
@@ -39,11 +39,11 @@ Via ansible-galaxy (recommended):
 
 `ansible-galaxy collection install maxhoesel.caddy`
 
-Alternatively, you can download a collection archive from a [previous release](hhttps://github.com/maxhoesel/ansible-collection-caddy/releases).
+Alternatively, you can download a collection archive from a [previous release](hhttps://github.com/maxhoesel-ansible/ansible-collection-caddy/releases).
 
 You can also clone this repository directly if you want a slightly more up-to-date (and potentially buggy) version.
 
-`ansible-galaxy collection install git+https://github.com/maxhoesel/ansible-collection-caddy`
+`ansible-galaxy collection install git+https://github.com/maxhoesel-ansible/ansible-collection-caddy`
 
 ## License & Author
 

@@ -10,12 +10,12 @@ build_ignore:
 dependencies:
   community.general: '>=2.0.0'
 description: A collection to manage a caddy installation
-issues: https://github.com/maxhoesel/ansible-collection-caddy/issues
+issues: https://github.com/maxhoesel-ansible/ansible-collection-caddy/issues
 license_file: LICENSE
 name: caddy
 namespace: maxhoesel
 readme: README.md
-repository: https://github.com/maxhoesel/ansible-collection-caddy
+repository: https://github.com/maxhoesel-ansible/ansible-collection-caddy
 tags:
 - caddy
 - webserver
