@@ -25,6 +25,7 @@ repos:
         args: [
             "-rn", # Only display messages
             "-sn", # Don't display the score
+            "--disable=R",
           ]
 
 ci:

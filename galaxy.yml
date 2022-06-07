@@ -1,11 +1,12 @@
 authors:
 - Max Hösel <ansible@maxhoesel.de>
 build_ignore:
- - "*.tar.gz"
- - ".venv"
- - ".github"
- - ".tox"
- - ".pytest_cache"
+- '*.tar.gz'
+- .venv
+- .github
+- .tox
+- .pytest_cache
+- scripts
 dependencies:
   community.general: '>=2.0.0'
 description: A collection to manage a caddy installation
