@@ -5,7 +5,7 @@ on:
     branches:
       # the dependabot-auto-merge action actually checks the PR author - this is just an early exit
       # for PRs that are obviously not dependabot-related
-      - 'dependabot/*'
+      - 'dependabot/**'
 
 jobs:
   auto-merge:
