@@ -1,7 +1,10 @@
 ---
-- include: check.yml
+- name: Run Checks
+  ansible.builtin.include_tasks: check.yml
 
-- include: "install_{{ ansible_os_family | lower }}.yml"
+- name: Perform distro-specific Caddy install
+  ansible.builtin.include_tasks: "install_{{ ansible_os_family | lower }}.yml"
 
-- include: "config_{{ caddy_config_mode }}.yml"
+- name: Configure Caddy
+  ansible.builtin.include_tasks: "config_{{ caddy_config_mode }}.yml"
   when: caddy_apply_config
