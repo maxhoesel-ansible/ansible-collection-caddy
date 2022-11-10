@@ -1,6 +1,5 @@
 # Module deps, useful for editor intellisense, etc.
 ansible-core==2.13.4
-proxmoxer==1.3.1
 
 # Linting & Formatting
 ansible-lint==6.7.0
@@ -14,3 +13,5 @@ tox==3.26.0
 # Utility packages needed for scripts
 pyyaml==6.0.0
 packaging==21.3
+
+# Module requirements
