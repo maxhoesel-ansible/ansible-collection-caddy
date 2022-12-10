@@ -2,76 +2,57 @@
 dependency:
   name: galaxy
 driver:
-  name: docker
+  name: podman
 platforms:
   # Note on containers:
   # - We use the images provided by geerlingguy, as they provide out-of-the-box
   #   support for Ansible and systemd (needed to test service management).
-  # - The containers run as privileged containers so that we can
-  #   use systemd functionality. This *should* be possible with unpriliged
-  #   containers as well, but is quite the headache.
   - name: caddy-ubuntu-20
     groups:
       - ubuntu
-      - ca
-    image: "geerlingguy/docker-ubuntu2004-ansible"
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
+    image: "docker.io/geerlingguy/docker-ubuntu2004-ansible"
+    systemd: always
     override_command: false
     pre_build_image: true
 
   - name: caddy-ubuntu-18
     groups:
       - ubuntu
-      - ca
-    image: "geerlingguy/docker-ubuntu1804-ansible"
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
+    image: "docker.io/geerlingguy/docker-ubuntu1804-ansible"
+    systemd: always
     override_command: false
     pre_build_image: true
 
   - name: caddy-debian-11
     groups:
       - debian
-      - ca
-    image: "geerlingguy/docker-debian11-ansible"
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
+    image: "docker.io/geerlingguy/docker-debian11-ansible"
+    systemd: always
     override_command: false
     pre_build_image: true
 
   - name: caddy-debian-10
     groups:
       - debian
-      - ca
-    image: "geerlingguy/docker-debian10-ansible"
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
+    image: "docker.io/geerlingguy/docker-debian10-ansible"
+    systemd: always
     override_command: false
     pre_build_image: true
 
   - name: caddy-rockylinux-8
     groups:
       - rockylinux
-      - ca
-    image: "geerlingguy/docker-rockylinux8-ansible"
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
+    image: "docker.io/geerlingguy/docker-rockylinux8-ansible"
+    systemd: always
     override_command: false
     pre_build_image: true
 
 provisioner:
   name: ansible
-  config_options:
-    ssh_connection:
-      pipelining: yes
-    defaults:
-      forks: 15
+  env:
+    # This is required for podman to function: https://github.com/ansible-community/molecule-podman/issues/2
+    ANSIBLE_PIPELINING: false
+    #ANSIBLE_VERBOSITY: 3 # enable for debugging
 
 scenario:
   test_sequence:

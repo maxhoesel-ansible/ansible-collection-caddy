@@ -1,15 +1,14 @@
 # Module deps, useful for editor intellisense, etc.
-ansible-core==2.13.4
-proxmoxer==1.3.1
+ansible-core==2.14.0
 
 # Linting & Formatting
-ansible-lint==6.7.0
-pylint==2.15.3
-autopep8==1.7.0
+ansible-lint==6.9.0
+pylint==2.15.7
+autopep8==2.0.0
 pre-commit==2.20.0
 
 # Testing
-tox==3.26.0
+tox==3.27.1
 
 # Utility packages needed for scripts
 pyyaml==6.0.0
