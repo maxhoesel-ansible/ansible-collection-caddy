@@ -19,4 +19,4 @@ repository: https://github.com/maxhoesel-ansible/ansible-collection-caddy
 tags:
 - caddy
 - webserver
-version: 0.2.7
+version: 1.0.0
