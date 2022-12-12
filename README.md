@@ -1,8 +1,8 @@
 # maxhoesel.caddy - Ansible Collection for the Caddy webserver
 
-![Release](https://img.shields.io/github/v/release/maxhoesel-ansible/ansible-collection-caddy)
-![CI Status)](https://img.shields.io/github/workflow/status/maxhoesel-ansible/ansible-collection-caddy/CI/main)
-![License](https://img.shields.io/github/license/maxhoesel-ansible/ansible-collection-caddy)
+![Release](https://img.shields.io/github/v/release/maxhoesel/ansible-collection-caddy?style=flat-square)
+![Build Status](https://img.shields.io/circleci/build/github/maxhoesel-ansible/ansible-collection-caddy/main?style=flat-square)
+![License](https://img.shields.io/github/license/maxhoesel/ansible-collection-caddy?style=flat-square)
 
 An Ansible collection containing roles/modules to install, configure and interact with the [caddy webserver](https://github.com/caddyserver/caddy).
 
@@ -28,7 +28,7 @@ An Ansible collection containing roles/modules to install, configure and interac
 
 - A recent release of Ansible. This collection officially supports the 2 most recent Ansible releases.
   Older versions might still work, but are not supported
-- Python 2.7 or Python 3.6+
+- Python 3.6 or newer on the target host
 - The modules require the `requests` python module on the remote host
 
 Individual roles or modules may have additional dependencies, please check their respective documentation.
