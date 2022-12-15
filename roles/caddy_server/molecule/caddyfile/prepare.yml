@@ -3,3 +3,10 @@
     - name: Update apt cache
       apt:
         update_cache: yes
+
+- hosts: archlinux
+  tasks:
+    - name: Upgrade system
+      community.general.pacman:
+        update_cache: yes
+        upgrade: yes

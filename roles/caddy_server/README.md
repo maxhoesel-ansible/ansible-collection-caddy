@@ -12,6 +12,7 @@ Alternatively, you can also configure caddy with a Caddyfile by passing it to th
   - Ubuntu 18.04 LTS or newer
   - Debian 10 or newer
   - A CentOS 8-compatible distribution like RockyLinux or AlmaLinux. RockyLinux is used for testing
+  - ArchLinux (tested against the latest package versions)
 - Supported architectures: Anything supported by upstream caddy should work
 - This role requires root access. Make sure to run this role with `become: yes` or equivalent
 
