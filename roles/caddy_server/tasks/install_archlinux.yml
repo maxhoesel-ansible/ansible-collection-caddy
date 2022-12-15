@@ -1,0 +1,6 @@
+---
+- name: Requirements and Caddy are installed
+  ansible.builtin.package:
+    name:
+      - python-requests
+      - caddy
