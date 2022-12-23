@@ -39,18 +39,8 @@ workflows:
       - collection-testing/publish-github:
           context: collection-publishing
           filters: *tagged
-          requires:
-            - collection-testing/tox-role-scenarios
-            - collection-testing/antsibull-docs
-            - modules-sanity
-            - modules-integration
       - collection-testing/publish-galaxy:
           context: collection-publishing
           filters: *tagged
-          requires:
-            - collection-testing/tox-role-scenarios
-            - collection-testing/antsibull-docs
-            - modules-sanity
-            - modules-integration
       - modules-sanity
       - modules-integration
