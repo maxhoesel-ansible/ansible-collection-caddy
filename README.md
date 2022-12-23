@@ -8,6 +8,14 @@ An Ansible collection containing roles/modules to install, configure and interac
 
 ## Components
 
+---
+**📘 Documentation**
+
+- For role documentation, see their `README.md`s or the online docs [here](https://ansible-collection-caddy.readthedocs.io)
+- For modules documentation, see the online docs [here](https://ansible-collection-caddy.readthedocs.io)
+
+---
+
 ### Roles
 
 | Role | Description |
@@ -18,9 +26,9 @@ An Ansible collection containing roles/modules to install, configure and interac
 
 | Module  | Description |
 |---------|-------------|
-| `caddy_load` | Load a new config into Caddy
-| `caddy_config_info` | Retrieve Caddys current configuration for a given path
-| `caddy_config` | Create or update Caddys configuration for a given path
+| [`caddy_load`](https://ansible-collection-caddy.readthedocs.io/en/latest/collections/maxhoesel/caddy/caddy_load_module.html) | Load a new config into Caddy
+| [`caddy_config_info`](https://ansible-collection-caddy.readthedocs.io/en/latest/collections/maxhoesel/caddy/caddy_config_info_module.html) | Retrieve Caddys current configuration for a given path
+| [`caddy_config`](https://ansible-collection-caddy.readthedocs.io/en/latest/collections/maxhoesel/caddy/caddy_config_module.html) | Create or update Caddys configuration for a given path
 
 ## Installation
 

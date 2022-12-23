@@ -1,6 +1,22 @@
 argument_specs:
   main:
-    short_description: Main entrypoint
+    short_description: Install and initialize a Caddy server
+    description:
+    - |
+      This role installs the stable version of Caddy from the official L(repositories,https://caddyserver.com/docs/install) and performs basic configuration.
+      The role will configure the server so that it can be managed with the modules in this collection.
+      Alternatively, you can also configure caddy with a Caddyfile by passing it to this role.
+    - |
+      The following distributions are currently supported:
+
+      - Ubuntu 18.04 LTS or newer
+      - Debian 10 or newer
+      - A CentOS 8-compatible distribution like RockyLinux or AlmaLinux. RockyLinux is used for testing
+      - ArchLinux (tested against the latest package versions)
+    - |
+      Supported architectures: Anything supported by upstream caddy should work
+    - |
+      This role requires root access. Make sure to run this role with C(become: yes) or equivalent
     options:
       caddy_apply_config:
         description: Whether to apply the given caddy configuration. Set to false if you only want to install Caddy.

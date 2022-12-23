@@ -29,7 +29,7 @@ options:
   create_path:
     description: >
       Whether to create the path pointing to the configuration if it doesn't exist yet.
-      For example, if I(path=apps/http/servers/myservice) C(apps/http/servers) does not exist yet, the required path entries will be created.
+      For example, if I(path=apps/http/servers/myservice) and C(apps/http/servers) does not exist yet, the required path entries will be created.
       Note that any digit path segments are treated as array indices.
     type: bool
     default: yes
@@ -53,8 +53,8 @@ options:
     aliases:
       - name
     description: >
-      Configuration path to which the configuration content will be pushed. Note that C(config/) is automatically
-      appended. Example: "apps/http/servers/myservice"
+      Configuration path to which the configuration content will be pushed. Note that the path if is automatically
+      prefixed with C(config/). Example: C(apps/http/servers/myservice)
     type: path
     required: yes
   state:
