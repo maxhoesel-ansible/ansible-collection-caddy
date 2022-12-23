@@ -13,7 +13,7 @@ author: Max Hösel (@maxhoesel)
 short_description: Load a new configuration into Caddy
 version_added: '0.1.0'
 description: >
-  This module pushes a caddy configuration to the server via the /load API endpoint.
+  This module pushes a caddy configuration to the server via the C(/load)    API endpoint.
   If no change between the currently running and future configuration is found, no changes will be made.
 notes:
   - Check mode is supported.

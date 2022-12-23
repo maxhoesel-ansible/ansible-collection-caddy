@@ -3,9 +3,6 @@
 set -eu
 set -o pipefail
 
-# Hostname to use for the ca container in molecule scenarios
-export STEP_MOLECULE_CA_HOSTNAME=step-ca-molecule.localdomain
-
 SCRIPT_DIRECTORY=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 USAGE=$(cat << EOF
 Usage: test-roles [filter] [--help, -h]
