@@ -8,11 +8,12 @@ Alternatively, you can also configure caddy with a Caddyfile by passing it to th
 
 ## Requirements
 
-- The following distributions are currently supported:
+- The following distributions are currently supported and tested:
   - Ubuntu 18.04 LTS or newer
   - Debian 10 or newer
   - A CentOS 8-compatible distribution like RockyLinux or AlmaLinux. RockyLinux is used for testing
-  - ArchLinux (tested against the latest package versions)
+- The following distributions are supported on a best-effort basis (should work but are not tested in CI):
+  - Arch Linux
 - Supported architectures: Anything supported by upstream caddy should work
 - This role requires root access. Make sure to run this role with `become: yes` or equivalent
 

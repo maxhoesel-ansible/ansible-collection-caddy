@@ -47,13 +47,14 @@ platforms:
     override_command: false
     pre_build_image: true
 
-  - name: caddy-archlinux
-    groups:
-      - archlinux
-    image: "docker.io/carlodepieri/docker-archlinux-ansible"
-    systemd: always
-    override_command: false
-    pre_build_image: true
+  # Only supported on a best effort-basis, CI is broken right now (2023-03-03)
+  #- name: caddy-archlinux
+  #  groups:
+  #    - archlinux
+  #  image: "docker.io/carlodepieri/docker-archlinux-ansible"
+  #  systemd: always
+  #  override_command: false
+  #  pre_build_image: true
 
 
 provisioner:
