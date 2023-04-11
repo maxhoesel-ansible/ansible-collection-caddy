@@ -1,0 +1,25 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Get running services
+      service_facts:
+
+    - name: Verify that caddy service is running and enabled
+      assert:
+        that:
+          - ansible_facts.services["{{ __caddy_service }}.service"].state == "running"
+          - ansible_facts.services["{{ __caddy_service }}.service"].status == "enabled"
+      vars:
+        __caddy_service: "{{ 'caddy-api' if caddy_config_mode == 'json' else 'caddy' }}"
+
+    - name: Load site
+      uri:
+        url: "http://localhost:80"
+        return_content: true
+      register: __caddy_site
+
+    - name: Verify that site got served
+      assert:
+        that: '"Hello World!" in __caddy_site.content'

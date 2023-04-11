@@ -1,83 +1,17 @@
 ---
-dependency:
-  name: galaxy
-driver:
-  name: podman
-platforms:
-  # Note on containers:
-  # - We use the images provided by geerlingguy, as they provide out-of-the-box
-  #   support for Ansible and systemd (needed to test service management).
-  - name: caddy-ubuntu-20
-    groups:
-      - ubuntu
-    image: "docker.io/geerlingguy/docker-ubuntu2004-ansible"
-    systemd: always
-    override_command: false
-    pre_build_image: true
-
-  - name: caddy-ubuntu-18
-    groups:
-      - ubuntu
-    image: "docker.io/geerlingguy/docker-ubuntu1804-ansible"
-    systemd: always
-    override_command: false
-    pre_build_image: true
-
-  - name: caddy-debian-11
-    groups:
-      - debian
-    image: "docker.io/geerlingguy/docker-debian11-ansible"
-    systemd: always
-    override_command: false
-    pre_build_image: true
-
-  - name: caddy-debian-10
-    groups:
-      - debian
-    image: "docker.io/geerlingguy/docker-debian10-ansible"
-    systemd: always
-    override_command: false
-    pre_build_image: true
-
-  - name: caddy-rockylinux-8
-    groups:
-      - rockylinux
-    image: "docker.io/geerlingguy/docker-rockylinux8-ansible"
-    systemd: always
-    override_command: false
-    pre_build_image: true
-
-  # Only supported on a best effort-basis, CI is broken right now (2023-03-03)
-  #- name: caddy-archlinux
-  #  groups:
-  #    - archlinux
-  #  image: "docker.io/carlodepieri/docker-archlinux-ansible"
-  #  systemd: always
-  #  override_command: false
-  #  pre_build_image: true
-
-
 provisioner:
-  name: ansible
-  env:
-    # This is required for podman to function: https://github.com/ansible-community/molecule-podman/issues/2
-    ANSIBLE_PIPELINING: false
-    #ANSIBLE_VERBOSITY: 3 # enable for debugging
-
-scenario:
-  test_sequence:
-    - lint
-    - destroy
-    - dependency
-    - syntax
-    - create
-    - prepare
-    - converge
-    - idempotence
-    - check # also run check mode in regular tests
-    - side_effect
-    - verify
-    - destroy
-
-verifier:
-  name: ansible
+  inventory:
+    group_vars:
+      all:
+        caddy_config_mode: json
+        caddy_json_config:
+          apps:
+            http:
+              servers:
+                example:
+                  listen:
+                    - ":80"
+                  routes:
+                    - handle:
+                        - handler: "static_response"
+                          body: "Hello World!"
