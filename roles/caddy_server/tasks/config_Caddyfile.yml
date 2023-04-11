@@ -8,13 +8,13 @@
   notify: Reload Caddy
 
 - name: Caddy JSON/API service is stopped and disabled
-  systemd:
+  service:
     name: caddy-api
     state: stopped
     enabled: no
 
 - name: Caddyfile service is started and enabled
-  systemd:
+  service:
     name: caddy
     state: started
     enabled: yes

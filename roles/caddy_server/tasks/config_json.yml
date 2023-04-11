@@ -1,11 +1,11 @@
 - name: Caddyfile service is stopped and disabled
-  systemd:
+  service:
     name: caddy
     state: stopped
     enabled: no
 
 - name: Caddy JSON/API service is started and enabled
-  systemd:
+  service:
     name: caddy-api
     state: started
     enabled: yes
