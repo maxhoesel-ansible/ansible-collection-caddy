@@ -1,3 +1,4 @@
+---
 - name: Reload Caddy
   service:
     name: caddy

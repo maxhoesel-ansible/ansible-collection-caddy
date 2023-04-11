@@ -29,4 +29,4 @@
 - name: Caddy is installed
   ansible.builtin.package:
     name: caddy
-    update_cache: yes
+    update_cache: true

@@ -1,3 +1,4 @@
+---
 - name: Caddyfile is present
   template:
     src: Caddyfile.j2
@@ -11,10 +12,10 @@
   service:
     name: caddy-api
     state: stopped
-    enabled: no
+    enabled: false
 
 - name: Caddyfile service is started and enabled
   service:
     name: caddy
     state: started
-    enabled: yes
+    enabled: true
