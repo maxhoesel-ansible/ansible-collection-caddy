@@ -1,3 +1,4 @@
+---
 expected_config:
   apps:
     http:
@@ -7,5 +8,5 @@ expected_config:
             - ":3456"
           routes:
             - handle:
-              - handler: "static_response"
-                body: "Different Message!"
+                - handler: "static_response"
+                  body: "Different Message!"

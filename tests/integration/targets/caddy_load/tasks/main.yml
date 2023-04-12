@@ -1,3 +1,4 @@
+---
 - name: Try to load basic configuration
   maxhoesel.caddy.caddy_load:
     config: "{{ original_config }}"
@@ -6,6 +7,7 @@
   maxhoesel.caddy.caddy_load:
     config: "{{ original_config }}"
   register: load_idempotent
+
 - name: Verify that module did not change anything
   assert:
     that: not load_idempotent.changed
@@ -14,6 +16,7 @@
   maxhoesel.caddy.caddy_load:
     config: "{{ updated_config }}"
   register: load_changed
+
 - name: Verify that new config got applied
   assert:
     that: load_changed.changed
@@ -22,6 +25,7 @@
   maxhoesel.caddy.caddy_config_info:
     path: ""
   register: loaded_config
+
 - name: Ensure config was applied correctly
   assert:
     that: loaded_config.config == updated_config

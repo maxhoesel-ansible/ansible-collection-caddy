@@ -1,12 +1,13 @@
+---
 original_config:
   apps:
     http:
       servers:
         example:
-            listen:
-              - ":80"
-            routes:
-              - handle:
+          listen:
+            - ":80"
+          routes:
+            - handle:
                 - handler: "static_response"
                   body: "Hello World!"
 
@@ -16,9 +17,9 @@ updated_config:
     http:
       servers:
         example:
-            listen:
-              - ":80"
-            routes:
-              - handle:
+          listen:
+            - ":80"
+          routes:
+            - handle:
                 - handler: "static_response"
                   body: "A different greeting!"
