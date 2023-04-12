@@ -1,0 +1,8 @@
+---
+- name: Caddy repository is enabled
+  yum_repository:
+    name: caddy
+    description: Caddy server repo
+    baseurl: "{{ caddy_rpm_repo }}"
+    skip_if_unavailable: true
+    gpgkey: "{{ caddy_rpm_key }}"

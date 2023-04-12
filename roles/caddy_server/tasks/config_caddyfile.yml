@@ -1,0 +1,9 @@
+---
+- name: Caddyfile is present
+  template:
+    src: Caddyfile.j2
+    dest: "{{ _caddy_caddyfile_dest }}"
+    owner: root
+    group: root
+    mode: "644"
+  notify: Reload Caddy

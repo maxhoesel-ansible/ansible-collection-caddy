@@ -1,0 +1,3 @@
+---
+_package_requirements:
+  - python-requests

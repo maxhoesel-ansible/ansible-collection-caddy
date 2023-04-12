@@ -1,16 +1,4 @@
 ---
-- name: Caddyfile service is stopped and disabled
-  service:
-    name: caddy
-    state: stopped
-    enabled: false
-
-- name: Caddy JSON/API service is started and enabled
-  service:
-    name: caddy-api
-    state: started
-    enabled: true
-
 - name: JSON configuration is applied
   maxhoesel.caddy.caddy_load:
     config: "{{ caddy_json_config }}"

@@ -1,0 +1,3 @@
+---
+_package_requirements:
+  - "{{ 'python3-requests' if ansible_python_version is version('3', '>=') else 'python-requests' }}"
