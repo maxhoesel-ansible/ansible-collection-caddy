@@ -41,7 +41,7 @@ Alternatively, you can also configure caddy with a Caddyfile by passing it to th
 - Used if `caddy_config_mode` is set to `Caddyfile`
 - Default: ""
 
-#### `caddy_apt_repo` 
+#### `caddy_apt_repo`
 - Apt repo location
 - A string containing the repo url, distribution, component
 
