@@ -12,7 +12,7 @@ repos:
       - id: check-executables-have-shebangs
       - id: debug-statements
   - repo: https://github.com/ansible/ansible-lint
-    rev: v6.14.4
+    rev: v6.14.6
     hooks:
       - id: ansible-lint
         args:
