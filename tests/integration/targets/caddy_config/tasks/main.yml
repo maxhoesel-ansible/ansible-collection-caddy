@@ -1,3 +1,4 @@
+---
 - name: Try to load basic root configuration
   maxhoesel.caddy.caddy_config:
     path: ""
@@ -11,8 +12,9 @@
         - ":80"
       routes:
         - handle:
-          - handler: "static_response"
-            body: "Different Message!"
+            - handler: "static_response"
+              body: "Different Message!"
+
 - name: Test idempotency of update
   maxhoesel.caddy.caddy_config:
     path: apps/http/servers/example
@@ -21,21 +23,23 @@
         - ":80"
       routes:
         - handle:
-          - handler: "static_response"
-            body: "Different Message!"
+            - handler: "static_response"
+              body: "Different Message!"
   register: patch_change
+
 - name: Verify that PATCH update is idempotent
   assert:
     that: not patch_change.changed
 
 - name: Test appending to array with POST
   maxhoesel.caddy.caddy_config:
-    append: yes
+    append: true
     path: apps/http/servers/example/listen
     config: ":2345"
+
 - name: Test insertion into array with PUT
   maxhoesel.caddy.caddy_config:
-    append: yes
+    append: true
     path: apps/http/servers/example/listen/0
     config: ":3456"
 
@@ -43,6 +47,7 @@
   maxhoesel.caddy.caddy_config:
     path: apps/http/servers/example/listen/1
     state: absent
+
 - name: Test idempotency
   maxhoesel.caddy.caddy_config:
     path: apps/http/servers/example/listen/1

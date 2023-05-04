@@ -1,0 +1,15 @@
+---
+- name: Old apt-key trusted key is absent
+  ansible.builtin.apt_key:
+    id: 65760C51EDEA2017CEA2CA15155B6D79CA56EA34
+    state: absent
+  register: old_install_present
+
+- name: APT Key is stored in keyring
+  ansible.builtin.apt_key:
+    url: "{{ caddy_apt_key }}"
+    keyring: "{{ caddy_apt_keyring }}"
+
+- name: Caddy repository is enabled
+  apt_repository:
+    repo: "deb [signed-by={{ caddy_apt_keyring }}] {{ caddy_apt_repo }}"

@@ -1,27 +1,28 @@
+---
 argument_specs:
   main:
     short_description: Install and initialize a Caddy server
     description:
-    - |
-      This role installs the stable version of Caddy from the official L(repositories,https://caddyserver.com/docs/install) and performs basic configuration.
-      The role will configure the server so that it can be managed with the modules in this collection.
-      Alternatively, you can also configure caddy with a Caddyfile by passing it to this role.
-    - |
-      The following distributions are currently supported:
+      - |
+        This role installs the stable version of Caddy from the official L(repositories,https://caddyserver.com/docs/install) and performs basic configuration.
+        The role will configure the server so that it can be managed with the modules in this collection.
+        Alternatively, you can also configure caddy with a Caddyfile by passing it to this role.
+      - |
+        The following distributions are currently supported:
 
-      - Ubuntu 18.04 LTS or newer
-      - Debian 10 or newer
-      - A CentOS 8-compatible distribution like RockyLinux or AlmaLinux. RockyLinux is used for testing
-      - ArchLinux (tested against the latest package versions)
-    - |
-      Supported architectures: Anything supported by upstream caddy should work
-    - |
-      This role requires root access. Make sure to run this role with C(become: yes) or equivalent
+        - Ubuntu 18.04 LTS or newer
+        - Debian 10 or newer
+        - A CentOS 8-compatible distribution like RockyLinux or AlmaLinux. RockyLinux is used for testing
+        - ArchLinux (tested against the latest package versions)
+      - |
+        Supported architectures: Anything supported by upstream caddy should work
+      - |
+        This role requires root access. Make sure to run this role with C(become: true) or equivalent
     options:
       caddy_apply_config:
         description: Whether to apply the given caddy configuration. Set to false if you only want to install Caddy.
         type: bool
-        default: yes
+        default: true
       caddy_config_mode:
         description: Whether to use the JSON API or a Caddyfile for configuration
         type: str
@@ -37,3 +38,19 @@ argument_specs:
         description: Contents of the Caddyfile. Must be a string literal
         type: str
         default: ""
+      caddy_apt_repo:
+        description: "Apt repo location"
+        default:  "https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
+      caddy_apt_key:
+        description: "Apt key url"
+        default: "https://dl.cloudsmith.io/public/caddy/stable/gpg.key"
+      caddy_apt_keyring:
+        description: "Apt keyring path"
+        default: "/usr/share/keyrings/caddy-stable-archive-keyring.gpg"
+      caddy_rpm_repo:
+        description: "Rpm repo url"
+        default: "https://download.copr.fedorainfracloud.org/results/@caddy/caddy/{{ 'fedora' if ansible_distribution | lower == 'fedora'
+                  else 'epel' }}-$releasever-$basearch/"
+      caddy_rpm_key:
+        description: "Rpm repo gpg key url"
+        default: "https://download.copr.fedorainfracloud.org/results/@caddy/caddy/pubkey.gpg"

@@ -1,2 +1,4 @@
 ---
-caddy_caddyfile_dest: /etc/caddy/Caddyfile
+_caddy_caddyfile_dest: /etc/caddy/Caddyfile
+_caddy_service_json: caddy-api
+_caddy_service_caddyfile: caddy

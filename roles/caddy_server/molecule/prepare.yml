@@ -1,0 +1,18 @@
+---
+- hosts: "ubuntu:debian"
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+
+- hosts: archlinux
+  tasks:
+    - name: "Initialize keyring"
+      shell:
+        cmd: "pacman-key --init && pacman -Sy archlinux-keyring --noconfirm"
+      changed_when: true
+
+    - name: "Upgrade system"
+      community.general.pacman:
+        update_cache: true
+        upgrade: true
