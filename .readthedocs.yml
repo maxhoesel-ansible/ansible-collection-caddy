@@ -5,7 +5,7 @@ python:
     - requirements: docs/requirements.txt
 
 build:
-  os: "ubuntu-20.04"
+  os: "ubuntu-22.04"
   tools:
     python: "3.10"
   apt_packages:
@@ -13,12 +13,12 @@ build:
   jobs:
     pre_build:
       - >
-        . /home/docs/checkouts/readthedocs.org/user_builds/ansible-collection-caddy/envs/latest/bin/activate
+        . /home/docs/checkouts/readthedocs.org/user_builds/ansible-collection-smallstep/envs/latest/bin/activate
         && ansible-galaxy collection build --force
         && ansible-galaxy collection install *.tar.gz --force
         && cd docs
         && mkdir temp-rst
-        && antsibull-docs --config-file antsibull-docs.cfg collection --use-current --dest-dir temp-rst maxhoesel.caddy
+        && antsibull-docs --config-file antsibull-docs.cfg collection --use-current --dest-dir temp-rst maxhoesel.smallstep
       - cd docs && rsync -cprv --delete-after temp-rst/collections/ rst/collections/
 
 sphinx:
