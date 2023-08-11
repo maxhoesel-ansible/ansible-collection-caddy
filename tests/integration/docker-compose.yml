@@ -1,0 +1,40 @@
+---
+version: "3"
+
+services:
+  test-runner:
+    image: quay.io/maxhoesel-ansible/ansible-test-collection-runner:${ANSIBLE_VERSION}
+    volumes:
+      # Pass through the docker socket
+      - /var/run/docker.sock:/var/run/docker.sock
+      # and our collection
+      - ../../:/collection
+    environment:
+      # caddy server settings
+      ADMIN_URL: http://caddy:2019
+      # render the integration config template
+      PRE_COMMANDS: "/collection/scripts/render_template.sh \
+        /collection/tests/integration/integration_config.yml.template > /collection/tests/integration/integration_config.yml"
+      ANSIBLE_TEST_ARGS: "integration --color -v \
+        --controller docker:default --target docker:default,python=${NODE_PYTHON_VERSION} \
+        --docker-network ansible-collection-caddy-integration-caddy"
+    depends_on:
+      caddy:
+        condition: service_healthy
+
+  caddy:
+    image: docker.io/library/caddy:latest
+    environment:
+      CADDY_ADMIN: 0.0.0.0:2019
+    networks:
+      - caddy
+    healthcheck:
+      test: wget -O /dev/null http://caddy:2019/config/
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+networks:
+  caddy:
+    name: ansible-collection-caddy-integration-caddy
+    driver: bridge

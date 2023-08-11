@@ -1,0 +1,4 @@
+- name: Requests is installed
+  become: yes
+  package:
+    name: python3-requests

@@ -3,9 +3,11 @@
   maxhoesel.caddy.caddy_config:
     path: ""
     config: {}
+    caddy_host: "{{ caddy_host }}"
 
 - name: Test creation
   maxhoesel.caddy.caddy_config:
+    caddy_host: "{{ caddy_host }}"
     path: apps/http/servers/example
     value:
       listen:
@@ -17,6 +19,7 @@
 
 - name: Test idempotency of update
   maxhoesel.caddy.caddy_config:
+    caddy_host: "{{ caddy_host }}"
     path: apps/http/servers/example
     content:
       listen:
@@ -33,29 +36,34 @@
 
 - name: Test appending to array with POST
   maxhoesel.caddy.caddy_config:
+    caddy_host: "{{ caddy_host }}"
     append: true
     path: apps/http/servers/example/listen
     config: ":2345"
 
 - name: Test insertion into array with PUT
   maxhoesel.caddy.caddy_config:
+    caddy_host: "{{ caddy_host }}"
     append: true
     path: apps/http/servers/example/listen/0
     config: ":3456"
 
 - name: Test deletion
   maxhoesel.caddy.caddy_config:
+    caddy_host: "{{ caddy_host }}"
     path: apps/http/servers/example/listen/1
     state: absent
 
 - name: Test idempotency
   maxhoesel.caddy.caddy_config:
+    caddy_host: "{{ caddy_host }}"
     path: apps/http/servers/example/listen/1
     state: absent
 
 - name: Get current config
   maxhoesel.caddy.caddy_config_info:
     path: ""
+    caddy_host: "{{ caddy_host }}"
   register: current_config
 
 - name: Verify that current config is as expected
@@ -65,3 +73,4 @@
 - name: Remove config (cleanup)
   maxhoesel.caddy.caddy_load:
     config: {}
+    caddy_host: "{{ caddy_host }}"
