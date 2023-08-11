@@ -16,4 +16,8 @@ class ModuleDocFragment(object):
         description: Address of the caddy API endpoint
         default: "http://localhost:2019"
         type: str
+      timeout:
+        description: Timeout for connections to the caddy API in seconds
+        default: 30
+        type: int
     '''

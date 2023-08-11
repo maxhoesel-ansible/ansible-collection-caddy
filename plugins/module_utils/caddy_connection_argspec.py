@@ -8,5 +8,6 @@ __metaclass__ = type
 
 
 caddyhost_argspec = dict(
-    caddy_host=dict(type="str", default="http://localhost:2019")
+    caddy_host=dict(type="str", default="http://localhost:2019"),
+    timeout=dict(type="int", default=30)
 )

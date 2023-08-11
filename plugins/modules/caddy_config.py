@@ -67,7 +67,7 @@ options:
     default: present
     type: str
 
-extends_documentation_fragment: maxhoesel.caddy.caddy_host_fragment
+extends_documentation_fragment: maxhoesel.caddy.caddy_connection_fragment
 """
 
 EXAMPLES = r"""
@@ -90,7 +90,7 @@ EXAMPLES = r"""
 
 from ansible.module_utils.basic import AnsibleModule
 from ..module_utils.caddyserver import CaddyServer
-from ..module_utils.caddy_host_argspec import caddyhost_argspec
+from ..module_utils.caddy_connection_argspec import caddyhost_argspec
 
 
 def create_or_update_config(module, server):
@@ -153,7 +153,7 @@ def run_module():
     module_args.update(caddyhost_argspec)
     module = AnsibleModule(module_args, supports_check_mode=True)
 
-    server = CaddyServer(module, module.params["caddy_host"])
+    server = CaddyServer(module, module.params["caddy_host"], timeout=module.params["timeout"])
 
     if module.params["state"] == "present":
         result = create_or_update_config(module, server)
