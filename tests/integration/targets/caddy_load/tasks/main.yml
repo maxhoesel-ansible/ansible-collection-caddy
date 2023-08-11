@@ -2,10 +2,12 @@
 - name: Try to load basic configuration
   maxhoesel.caddy.caddy_load:
     config: "{{ original_config }}"
+    caddy_host: "{{ caddy_host }}"
 
 - name: Test idempotency
   maxhoesel.caddy.caddy_load:
     config: "{{ original_config }}"
+    caddy_host: "{{ caddy_host }}"
   register: load_idempotent
 
 - name: Verify that module did not change anything
@@ -15,6 +17,7 @@
 - name: Test config comparsion by applying new config
   maxhoesel.caddy.caddy_load:
     config: "{{ updated_config }}"
+    caddy_host: "{{ caddy_host }}"
   register: load_changed
 
 - name: Verify that new config got applied
@@ -24,6 +27,7 @@
 - name: Get config
   maxhoesel.caddy.caddy_config_info:
     path: ""
+    caddy_host: "{{ caddy_host }}"
   register: loaded_config
 
 - name: Ensure config was applied correctly
@@ -33,3 +37,4 @@
 - name: Remove config (cleanup)
   maxhoesel.caddy.caddy_load:
     config: {}
+    caddy_host: "{{ caddy_host }}"
