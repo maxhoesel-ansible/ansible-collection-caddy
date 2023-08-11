@@ -16,10 +16,11 @@ except ImportError:
 
 class CaddyServer(object):
 
-    def __init__(self, module, addr):
+    def __init__(self, module, addr, timeout):
         if not HAS_REQUESTS:
             module.fail_json(msg="The 'requests' python package is required to run this module")
         self.module = module
+        self.timeout = timeout
         # If the user does not specify a protocol we assume Caddys default: HTTP
         if not addr.startswith("http"):
             self.addr = "http://{addr}".format(addr=addr)
@@ -72,15 +73,15 @@ class CaddyServer(object):
 
         try:
             if method == "GET":
-                r = requests.get(url)
+                r = requests.get(url, timeout=self.timeout)
             elif method == "POST":
-                r = requests.post(url, json=data)
+                r = requests.post(url, json=data, timeout=self.timeout)
             elif method == "PUT":
-                r = requests.put(url, json=data)
+                r = requests.put(url, json=data, timeout=self.timeout)
             elif method == "PATCH":
-                r = requests.patch(url, json=data)
+                r = requests.patch(url, json=data, timeout=self.timeout)
             elif method == "DELETE":
-                r = requests.delete(url, json=data)
+                r = requests.delete(url, json=data, timeout=self.timeout)
             else:
                 self.module.fail_json(
                     msg="Invalid HTTP method for accessing the Caddy API: {method}".format(method=method))

@@ -24,7 +24,7 @@ options:
     type: path
     required: yes
 
-extends_documentation_fragment: maxhoesel.caddy.caddy_host_fragment
+extends_documentation_fragment: maxhoesel.caddy.caddy_connection_fragment
 """
 
 EXAMPLES = r"""
@@ -45,7 +45,7 @@ config:
 
 from ansible.module_utils.basic import AnsibleModule
 from ..module_utils.caddyserver import CaddyServer
-from ..module_utils.caddy_host_argspec import caddyhost_argspec
+from ..module_utils.caddy_connection_argspec import caddyhost_argspec
 
 
 def run_module():
@@ -56,7 +56,7 @@ def run_module():
     module_args.update(caddyhost_argspec)
     module = AnsibleModule(module_args, supports_check_mode=True)
 
-    server = CaddyServer(module, module.params["caddy_host"])
+    server = CaddyServer(module, module.params["caddy_host"], timeout=module.params["timeout"])
     config = server.config_get(module.params["path"])
 
     module.exit_json(changed=False, config=config)
