@@ -34,3 +34,5 @@ repos:
 ci:
   skip:
     - pylint
+    # Ansible-lint has a tendency to timeout in the pre-commit CI, so skip it
+    - ansible-lint
