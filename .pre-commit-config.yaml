@@ -32,6 +32,9 @@ repos:
           ]
 
 ci:
+  # pre-commit updates are handled by renovate, but there is no way to disable pre-commit-ci
+  # autoupdates. Reduce their check interval for now, this should reduce PR noise
+  autoupdate_schedule: quarterly
   skip:
     - pylint
     # Ansible-lint has a tendency to timeout in the pre-commit CI, so skip it
