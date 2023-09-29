@@ -3,10 +3,10 @@ platforms:
   # Note on containers:
   # - We use the images provided by geerlingguy, as they provide out-of-the-box
   #   support for Ansible and systemd (needed to test service management).
-  - name: caddy-ubuntu-22
+  - name: caddy-ubuntu-20
     groups:
       - ubuntu
-    image: "docker.io/geerlingguy/docker-ubuntu2204-ansible"
+    image: "docker.io/geerlingguy/docker-ubuntu2004-ansible"
     systemd: always
     override_command: false
     pre_build_image: true
@@ -16,20 +16,10 @@ platforms:
     capabilities:
       - NET_ADMIN
 
-  - name: caddy-ubuntu-20
+  - name: caddy-ubuntu-18
     groups:
       - ubuntu
-    image: "docker.io/geerlingguy/docker-ubuntu2004-ansible"
-    systemd: always
-    override_command: false
-    pre_build_image: true
-    capabilities:
-      - NET_ADMIN
-
-  - name: caddy-debian-12
-    groups:
-      - debian
-    image: "docker.io/geerlingguy/docker-debian12-ansible"
+    image: "docker.io/geerlingguy/docker-ubuntu1804-ansible"
     systemd: always
     override_command: false
     pre_build_image: true
@@ -56,16 +46,6 @@ platforms:
     capabilities:
       - NET_ADMIN
 
-  - name: caddy-rockylinux-9
-    groups:
-      - rockylinux
-    image: "docker.io/geerlingguy/docker-rockylinux9-ansible"
-    systemd: always
-    override_command: false
-    pre_build_image: true
-    capabilities:
-      - NET_ADMIN
-
   - name: caddy-rockylinux-8
     groups:
       - rockylinux
@@ -84,8 +64,6 @@ platforms:
     #   systemd: always
     #   override_command: false
     #   pre_build_image: true
-    #   capabilities:
-    #     - NET_ADMIN
 
 provisioner:
   playbooks:
