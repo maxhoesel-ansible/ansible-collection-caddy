@@ -39,30 +39,38 @@ Alternatively, you can also configure caddy with a Caddyfile by passing it to th
 - Contents of the Caddyfile that the server should run
 - See below for an example
 - Used if `caddy_config_mode` is set to `Caddyfile`
-- Default: ""
+- Default: `""`
 
-#### `caddy_apt_repo`
-- Apt repo location
-- A string containing the repo url, distribution, component
 
-#### `caddy_apt_key`
-- Url for the apt repo key
+### Advanced Repository Configuration
 
-#### `caddy_apt_keyring`
-- Path to where the caddy apt keyring should be stored
-
-#### `caddy_rpm_repo`
-- Url for the rpm repo
-
-#### `caddy_rpm_key`
-- Url for the rpm repo gpg key
-
-## Repository Configuration
-
-It is possible to overwrite the package repositories for Caddy, for example to use internal mirrors of Caddy.
+By default this role uses the upstream Caddy repositories (cloudsmith/COPR) to install Caddy on your System.
+It is possible to overwrite these package repositories for Caddy, for example to use internal mirrors of Caddy.
 This is done by overwriting the respective variables:
 - `caddy_apt_repo` and probably `caddy_apt_key` as well for apt/deb based repos.
 - `caddy_rpm_repo` and probably `caddy_rpm_key` as well for yum/dnf/rpm based repos.
+
+#### `caddy_apt_repo`
+- A string containing the repo url, distribution, component
+- Default: `https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main`
+
+#### `caddy_apt_key`
+- Url for the apt repo key
+- Default: `https://dl.cloudsmith.io/public/caddy/stable/gpg.key`
+
+#### `caddy_apt_keyring`
+- Path to where the caddy apt keyring should be stored
+- Default: `/usr/share/keyrings/caddy-stable-archive-keyring.gpg`
+
+#### `caddy_rpm_repo`
+- Url for the rpm repo
+- Default: `https://download.copr.fedorainfracloud.org/results/@caddy/caddy/{{ 'fedora' if ansible_distribution | lower == 'fedora'
+  else 'epel' }}-$releasever-$basearch/`
+
+#### `caddy_rpm_key`
+- Url for the rpm repo gpg key
+- Default: `https://download.copr.fedorainfracloud.org/results/@caddy/caddy/pubkey.gpg`
+
 
 ## Example Playbooks
 
