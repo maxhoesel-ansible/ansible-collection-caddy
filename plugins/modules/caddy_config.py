@@ -88,6 +88,8 @@ EXAMPLES = r"""
     state: absent
 """
 
+from typing import Dict, cast
+
 from ansible.module_utils.basic import AnsibleModule
 from ..module_utils.caddyserver import CaddyServer
 from ..module_utils.caddy_connection_argspec import caddyhost_argspec
@@ -150,11 +152,13 @@ def run_module():
         path=dict(type="path", aliases=["name"], required=True),
         state=dict(type="str", choices=["present", "absent"], default="present")
     )
-    module_args.update(caddyhost_argspec)
+    module_args.update(caddyhost_argspec)  # type: ignore
     module = AnsibleModule(module_args, supports_check_mode=True)
+    module.params = cast(Dict, module.params)
 
     server = CaddyServer(module, module.params["caddy_host"], timeout=module.params["timeout"])
 
+    result = {}
     if module.params["state"] == "present":
         result = create_or_update_config(module, server)
     elif module.params["state"] == "absent":
