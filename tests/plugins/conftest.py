@@ -1,6 +1,6 @@
 # pylint: disable=redefined-outer-name
 from dataclasses import dataclass
-from typing import cast, Generator, Optional
+from typing import cast, Generator
 
 import docker
 from docker.models.containers import Container
@@ -8,40 +8,9 @@ from docker.models.networks import Network
 from docker.errors import NotFound
 import pytest
 
-from tests.conftest import TestEnv, GALAXY_YML
-
 CADDY_NETWORK = "ansible-collection-caddy-test"
 CADDY_CONTAINER_NAME = "ansible-collection-caddy-test-server"
 CADDY_HOSTNAME = "caddy"
-
-
-class AnsibleTestEnv(TestEnv):
-    # pylint: disable=redefined-outer-name
-    def __init__(self, virtualenv, collection_path, test_versions) -> None:
-        self.cwd = collection_path / "ansible_collections" / GALAXY_YML["namespace"] / GALAXY_YML["name"]
-        super().__init__(virtualenv)
-
-        self.run(["pip", "install", test_versions.ansible_version_pip])
-
-    def run(self, *args, **kwargs):
-        kwargs["cwd"] = self.cwd
-        return super().run(*args, **kwargs)
-
-
-ANSIBLE_TEST_ENV: Optional[AnsibleTestEnv] = None
-
-
-@pytest.fixture()
-# This fixture should be session-scoped, but cannot be since it requires the function-scoped virtualenv fixture
-# Use memoization for now.
-# pylint: disable=redefined-outer-name
-def ansible_test_env(virtualenv, collection_path, test_versions) -> AnsibleTestEnv:
-    global ANSIBLE_TEST_ENV  # pylint: disable=global-statement
-    if ANSIBLE_TEST_ENV is not None:
-        return ANSIBLE_TEST_ENV
-
-    ANSIBLE_TEST_ENV = AnsibleTestEnv(virtualenv, collection_path, test_versions)
-    return ANSIBLE_TEST_ENV
 
 
 @pytest.fixture(scope="session")
