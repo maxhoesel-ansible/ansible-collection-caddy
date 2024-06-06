@@ -17,14 +17,14 @@ def render_integration_config(template, dest: Path, **kwargs):
         f.write(f"{content}\n")
 
 
-def test_plugins_integration(test_versions, remote_caddy_container, ansible_test_env):
+def test_plugins_integration(test_versions, remote_caddy_container, collection_test_env):
     render_integration_config(
         INTEGRATION_CONFIG_TEMPLATE,
-        ansible_test_env.cwd / "tests" / "integration" / INTEGRATION_CONFIG_FILE,
+        collection_test_env.cwd / "tests" / "integration" / INTEGRATION_CONFIG_FILE,
         admin_url=remote_caddy_container.caddy_url,
     )
 
-    ansible_test_env.run([
+    collection_test_env.run([
         "ansible-test", "integration", "--color", "-v",
         "--controller", "docker:default",
         "--target", f"docker:default,python={test_versions.node_python_version}",
@@ -32,8 +32,8 @@ def test_plugins_integration(test_versions, remote_caddy_container, ansible_test
     ])
 
 
-def test_plugins_sanity(ansible_test_env, test_versions):
-    ansible_test_env.run([
+def test_plugins_sanity(collection_test_env, test_versions):
+    collection_test_env.run([
         "ansible-test",
         "sanity", "--docker", "--color", "-v",
         "--python", test_versions.node_python_version,

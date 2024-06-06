@@ -1,6 +1,8 @@
 ---
 dependency:
   name: galaxy
+  options:
+    requirements-file: requirements.molecule.yml
 
 driver:
   name: docker
@@ -12,14 +14,14 @@ provisioner:
 
 scenario:
   test_sequence:
-    - destroy
     - dependency
     - syntax
+    - destroy
     - create
     - prepare
     - converge
     - idempotence
-    - check  # also run check mode in regular tests
+    - check # also run check mode in regular tests
     - side_effect
     - verify
     - destroy
