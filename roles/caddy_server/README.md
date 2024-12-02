@@ -98,6 +98,7 @@ This is done by overwriting the respective variables:
     - role: maxhoesel.caddy.caddy_server
       become: yes
       vars:
+        caddy_config_mode: Caddyfile
         caddy_caddyfile: |
             localhost:80
             respond "Hello, world!"
