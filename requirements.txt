@@ -10,7 +10,7 @@ aiofiles==24.1.0
     #   antsibull-fileutils
 aiohappyeyeballs==2.4.4
     # via aiohttp
-aiohttp==3.11.9
+aiohttp==3.11.10
     # via
     #   antsibull-core
     #   antsibull-docs
@@ -52,7 +52,7 @@ antsibull-fileutils==1.1.0
     #   antsibull-changelog
     #   antsibull-core
     #   antsibull-docs
-astroid==3.3.5
+astroid==3.3.6
     # via pylint
 asyncio-pool==0.6.0
     # via antsibull-docs
@@ -211,7 +211,7 @@ pycodestyle==2.12.1
     # via autopep8
 pycparser==2.22
     # via cffi
-pydantic==2.10.2
+pydantic==2.10.3
     # via
     #   antsibull-core
     #   antsibull-docs
@@ -259,7 +259,7 @@ rich==13.9.4
     #   enrich
     #   molecule
     #   typer
-rpds-py==0.21.0
+rpds-py==0.22.3
     # via
     #   jsonschema
     #   referencing
@@ -282,7 +282,7 @@ semantic-version==2.10.0
     #   antsibull-docs
 shellingham==1.5.4
     # via typer
-six==1.16.0
+six==1.17.0
     # via twiggy
 snowballstemmer==2.2.0
     # via sphinx
@@ -321,7 +321,7 @@ twiggy==0.5.1
     # via
     #   antsibull-core
     #   antsibull-docs
-typer==0.14.0
+typer==0.15.1
     # via rstcheck
 typing-extensions==4.12.2
     # via
