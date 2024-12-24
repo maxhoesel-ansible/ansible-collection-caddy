@@ -103,4 +103,11 @@ This is done by overwriting the respective variables:
             localhost:80
             respond "Hello, world!"
 
+- name: Install Caddy using a Caddyfile from an external template
+  hosts
+  roles:
+    - role: maxhoesel.caddy.caddy_server
+      become: yes
+      vars:
+        caddy_caddyfile: "{% include 'path/to/Caddyfile.j2' %}"
 ```
