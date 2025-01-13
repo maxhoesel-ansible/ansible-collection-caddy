@@ -211,14 +211,14 @@ pycodestyle==2.12.1
     # via autopep8
 pycparser==2.22
     # via cffi
-pydantic==2.10.4
+pydantic==2.10.5
     # via
     #   antsibull-core
     #   antsibull-docs
     #   rstcheck-core
 pydantic-core==2.27.2
     # via pydantic
-pygments==2.19.0
+pygments==2.19.1
     # via
     #   ansible-pygments
     #   rich
@@ -268,7 +268,7 @@ rstcheck==6.2.4
     #   antsibull-docs
 rstcheck-core==1.2.1
     # via rstcheck
-ruamel-yaml==0.18.9
+ruamel-yaml==0.18.10
     # via ansible-lint
 ruamel-yaml-clib==0.2.12
     # via ruamel-yaml
