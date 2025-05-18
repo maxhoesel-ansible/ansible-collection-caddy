@@ -2,8 +2,14 @@
 - name: Caddyfile is present
   template:
     src: Caddyfile.j2
-    dest: "{{ _caddy_caddyfile_dest }}"
+    dest: "{{ caddy_server_caddyfile_dest }}"
     owner: root
     group: root
     mode: "644"
   notify: Reload Caddy
+
+- name: Caddy API service is running and enabled
+  service:
+    name: "{{ caddy_server_service[caddy_config_mode] }}"
+    state: started
+    enabled: true

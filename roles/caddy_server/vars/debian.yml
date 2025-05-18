@@ -1,3 +1,6 @@
 ---
-_package_requirements:
+caddy_server_packages:
+  - debian-keyring
+  - debian-archive-keyring
+  - apt-transport-https
   - "{{ 'python3-requests' if ansible_python_version is version('3', '>=') else 'python-requests' }}"

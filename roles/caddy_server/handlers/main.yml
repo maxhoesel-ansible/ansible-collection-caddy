@@ -1,6 +1,6 @@
 ---
 - name: Reload Caddy
   service:
-    name: "{{ _caddy_service_caddyfile }}"
+    name: "{{ caddy_server_service[caddy_config_mode] }}"
     state: reloaded
-  when: (caddy_config_mode | lower == 'caddyfile')
+  when: (caddy_config_mode == 'Caddyfile')
