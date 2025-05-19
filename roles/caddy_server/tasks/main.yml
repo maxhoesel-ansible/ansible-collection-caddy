@@ -1,36 +1,12 @@
 ---
-- name: Import distro-specific variables
-  include_vars: "{{ distrovars }}"
-  when: (distrovars)
-  vars:
-    distrovars: "{{ lookup('first_found', params, errors='ignore') }}"
-    params:
-      skip: true
-      files:
-        - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.yml"
-        - "{{ ansible_distribution | lower }}.yml"
-        - "{{ ansible_os_family | lower }}.yml"
-      paths:
-        - 'vars/distro'
+- name: Load distribution-specific vars
+  ansible.builtin.include_vars: "{{ ansible_os_family | lower }}.yml"
 
 - name: Run Checks
   include_tasks: check.yml
 
 - name: Perform Caddy install
   include_tasks: install.yml
-
-- name: Caddy is running
-  service:
-    name: "{{ item.name }}"
-    state: "{{ item.state }}"
-    enabled: "{{ item.enabled }}"
-  loop:
-    - name: "{{ (caddy_config_mode == 'json') | ternary(_caddy_service_json, _caddy_service_caddyfile) }}"
-      state: started
-      enabled: true
-    - name: "{{ (caddy_config_mode == 'json') | ternary(_caddy_service_caddyfile, _caddy_service_json) }}"
-      state: stopped
-      enabled: false
 
 - name: Configure Caddy
   ansible.builtin.include_tasks: "config_{{ caddy_config_mode | lower }}.yml"

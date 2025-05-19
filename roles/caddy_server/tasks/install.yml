@@ -1,22 +1,10 @@
 ---
 - name: Requirements are installed
   package:
-    name: "{{ _package_requirements }}"
-  when: (_package_requirements | default() )
+    name: "{{ caddy_server_packages }}"
 
-- name: Import distro-specific tasks
-  include_tasks: "{{ distrotask }}"
-  when: (distrotask)
-  vars:
-    distrotask: "{{ lookup('first_found', params, errors='ignore') }}"
-    params:
-      skip: true
-      files:
-        - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.yml"
-        - "{{ ansible_distribution | lower }}.yml"
-        - "{{ ansible_os_family | lower }}.yml"
-      paths:
-        - 'tasks/distro'
+- name: Perform distro-specific install tasks
+  include_tasks: "install_{{ ansible_os_family | lower }}.yml"
 
 - name: Caddy is installed
   package:

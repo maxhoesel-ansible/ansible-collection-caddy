@@ -1,4 +1,10 @@
 ---
+- name: Caddy API service is running and enabled
+  service:
+    name: "{{ caddy_server_service[caddy_config_mode] }}"
+    state: started
+    enabled: true
+
 - name: JSON configuration is applied
   maxhoesel.caddy.caddy_load:
     config: "{{ caddy_json_config }}"
