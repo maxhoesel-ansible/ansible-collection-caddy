@@ -36,7 +36,7 @@ An Ansible collection containing roles/modules to install, configure and interac
 
 - A recent release of Ansible. This collection officially supports the 2 most recent Ansible releases.
   Older versions might still work, but are not supported
-- Python 3.9 or newer on the target host
+- Python 3.7 or newer on the target host
 - The modules require the `requests` python module on the remote host
 
 Individual roles or modules may have additional dependencies, please check their respective documentation.
