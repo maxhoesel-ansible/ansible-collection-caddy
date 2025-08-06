@@ -1,14 +1,29 @@
 ---
+
+- name: Check if apt-key is installed
+  ansible.builtin.stat:
+    path: "/usr/bin/apt-key"
+  register: apt_key_stat
+
 - name: Old apt-key trusted key is absent
   ansible.builtin.apt_key:
     id: 65760C51EDEA2017CEA2CA15155B6D79CA56EA34
     state: absent
   register: old_install_present
+  when: apt_key_stat.stat.exists
 
-- name: APT Key is stored in keyring
-  ansible.builtin.apt_key:
+- name: Ensure directory for APT keyrings exists
+  ansible.builtin.file:
+    path: "{{ caddy_apt_keyring | dirname }}"
+    state: directory
+    mode: '0755'
+
+- name: Download Caddy APT key to keyring
+  ansible.builtin.get_url:
     url: "{{ caddy_apt_key }}"
-    keyring: "{{ caddy_apt_keyring }}"
+    dest: "{{ caddy_apt_keyring }}"
+    mode: '0644'
+    force: yes
 
 - name: Caddy repository is enabled
   apt_repository:
