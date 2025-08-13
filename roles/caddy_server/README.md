@@ -47,20 +47,16 @@ Alternatively, you can also configure caddy with a Caddyfile by passing it to th
 By default this role uses the upstream Caddy repositories (cloudsmith/COPR) to install Caddy on your System.
 It is possible to overwrite these package repositories for Caddy, for example to use internal mirrors of Caddy.
 This is done by overwriting the respective variables:
-- `caddy_apt_repo` and probably `caddy_apt_key` as well for apt/deb based repos.
+- `caddy_apt_repo_url` and probably `caddy_apt_key_url` as well for apt/deb based repos.
 - `caddy_rpm_repo` and probably `caddy_rpm_key` as well for yum/dnf/rpm based repos.
 
-#### `caddy_apt_repo`
-- A string containing the repo url, distribution, component
-- Default: `https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main`
+#### `caddy_apt_repo_url`
+- A string containing the repo url for Debian hosts
+- Default: `https://dl.cloudsmith.io/public/caddy/stable/deb/debian`
 
-#### `caddy_apt_key`
+#### `caddy_apt_key_url`
 - Url for the apt repo key
 - Default: `https://dl.cloudsmith.io/public/caddy/stable/gpg.key`
-
-#### `caddy_apt_keyring`
-- Path to where the caddy apt keyring should be stored
-- Default: `/usr/share/keyrings/caddy-stable-archive-keyring.gpg`
 
 #### `caddy_rpm_repo`
 - Url for the rpm repo
