@@ -1,15 +1,29 @@
 ---
-- name: Old apt-key trusted key is absent
+# This role previously used the old sources.list repository style with a separate key in the keyring.
+# This has been superseded by the deb822-based approach below, but we still need to clean up after ourselves.
+- name: Key is absent from old apt-key store
   ansible.builtin.apt_key:
     id: 65760C51EDEA2017CEA2CA15155B6D79CA56EA34
     state: absent
-  register: old_install_present
+  when: >
+    ansible_distribution == "Debian" and ansible_distribution_major_version is version('12', '<=') or
+    ansible_distribution == "Ubuntu" and ansible_distribution_version is version('24.04', '<=')
+- name: Old repository definition is absent
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/dl_cloudsmith_io_public_caddy_stable_deb_debian.list
+    state: absent
 
-- name: APT Key is stored in keyring
-  ansible.builtin.apt_key:
-    url: "{{ caddy_apt_key }}"
-    keyring: "{{ caddy_apt_keyring }}"
+- name: Python3-debian package is present
+  ansible.builtin.apt:
+    name:
+      - python3-debian
 
-- name: Caddy repository is enabled
-  apt_repository:
-    repo: "deb [signed-by={{ caddy_apt_keyring }}] {{ caddy_apt_repo }}"
+- name: Caddy repository is configured
+  ansible.builtin.deb822_repository:
+    name: caddy-stable
+    uris: "{{ caddy_apt_repo_url }}"
+    types: ["deb", "deb-src"]
+    enabled: true
+    suites: "any-version"
+    components: ["main"]
+    signed_by: "{{ caddy_apt_key_url }}"
