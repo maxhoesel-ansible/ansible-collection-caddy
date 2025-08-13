@@ -9,10 +9,10 @@
     - name: Verify that caddy service is running and enabled
       assert:
         that:
-          - ansible_facts.services["{{ __caddy_service }}.service"].state == "running"
-          - ansible_facts.services["{{ __caddy_service }}.service"].status == "enabled"
+          - ansible_facts.services[_caddy_service].state == "running"
+          - ansible_facts.services[_caddy_service].status == "enabled"
       vars:
-        __caddy_service: "{{ 'caddy-api' if caddy_config_mode == 'json' else 'caddy' }}"
+        _caddy_service: "{{ 'caddy-api.service' if caddy_config_mode == 'json' else 'caddy.service' }}"
 
     - name: Load site
       uri:

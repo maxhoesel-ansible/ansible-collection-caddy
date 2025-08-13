@@ -11,3 +11,5 @@ caddy_rpm_repo:
   "https://download.copr.fedorainfracloud.org/results/@caddy/caddy/{{ 'fedora' if ansible_distribution | lower == 'fedora'
   else 'epel' }}-$releasever-$basearch/"
 caddy_rpm_key: "https://download.copr.fedorainfracloud.org/results/@caddy/caddy/pubkey.gpg"
+
+caddy_config_managed_string: "{{ ansible_managed | d('Ansible Managed, no not modify!') }}"
