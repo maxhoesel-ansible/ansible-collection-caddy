@@ -22,7 +22,7 @@ annotated-types==0.7.0
     # via
     #   antsibull-changelog
     #   pydantic
-ansible-compat==25.8.0
+ansible-compat==25.8.1
     # via
     #   ansible-lint
     #   molecule
@@ -116,7 +116,7 @@ docutils==0.21.2
     #   sphinx-rtd-theme
 enrich==1.2.7
     # via molecule
-filelock==3.18.0
+filelock==3.19.1
     # via
     #   ansible-lint
     #   virtualenv
@@ -343,7 +343,7 @@ urllib3==2.5.0
     # via
     #   docker
     #   requests
-virtualenv==20.33.1
+virtualenv==20.34.0
     # via pre-commit
 wcmatch==10.1
     # via
