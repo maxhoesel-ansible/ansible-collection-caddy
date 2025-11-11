@@ -1,0 +1,64 @@
+---
+- name: Perform distro-specific customization tasks
+  include_tasks: "customize_{{ ansible_os_family | lower }}.yml"
+
+- name: Check if caddy custom binary exists
+  ansible.builtin.stat:
+    path: "{{ caddy_custom_bin_path }}"
+  register: caddy_custom_bin_stat
+
+- name: Create custom binary from backup
+  ansible.builtin.copy:
+    src: "{{ caddy_backup_bin_path }}"
+    dest: "{{ caddy_custom_bin_path }}"
+    owner: root
+    group: root
+    mode: "0755"
+    remote_src: true
+  when: not caddy_custom_bin_stat.stat.exists
+
+- name: Declare alternative for packaged binary
+  community.general.alternatives:
+    name: caddy
+    link: "{{ caddy_bin_path }}"
+    path: "{{ caddy_backup_bin_path }}"
+    priority: 10
+    state: present
+  become: true
+
+- name: Declare alternative for custom binary
+  community.general.alternatives:
+    name: caddy
+    link: "{{ caddy_bin_path }}"
+    path: "{{ caddy_custom_bin_path }}"
+    priority: 50
+    state: present
+  become: true
+
+- name: Select custom binary as active value
+  community.general.alternatives:
+    name: caddy
+    link: "{{ caddy_bin_path }}"
+    path: "{{ caddy_custom_bin_path }}"
+    state: selected
+  become: true
+
+- name: Install additional modules
+  ansible.builtin.command:
+    cmd: "{{ caddy_custom_bin_path }} add-package {{ caddy_current_module }}"
+  loop: "{{ caddy_additionnal_modules }}"
+  loop_control:
+    loop_var: caddy_current_module
+  register: caddy_install_module_result
+  changed_when: caddy_install_module_result.rc == 0
+  failed_when:
+    - caddy_install_module_result.rc != 0
+    - caddy_install_module_result.stderr.find("package is already added") == -1
+  notify: Reload Caddy
+
+- name: Restore permission
+  ansible.builtin.file:
+    path: "{{ caddy_custom_bin_path }}"
+    owner: root
+    group: root
+    mode: "0755"
