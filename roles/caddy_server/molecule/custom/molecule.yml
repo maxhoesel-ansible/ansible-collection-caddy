@@ -1,0 +1,120 @@
+---
+platforms:
+  - name: caddy-ubuntu-24
+    groups:
+      - ubuntu
+    image: "docker.io/geerlingguy/docker-ubuntu2404-ansible"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    # Newer versions of the Caddy unit file use the NET_ADMIN capability,
+    # which is not passed by default. We explicitly enable it to ensure the services can start
+    # See: https://github.com/caddyserver/dist/pull/98
+    capabilities:
+      - NET_ADMIN
+
+  - name: caddy-ubuntu-22
+    groups:
+      - ubuntu
+    image: "docker.io/geerlingguy/docker-ubuntu2204-ansible"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    capabilities:
+      - NET_ADMIN
+
+  - name: caddy-debian-13
+    groups:
+      - debian
+    image: "docker.io/geerlingguy/docker-debian13-ansible"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    capabilities:
+      - NET_ADMIN
+
+  - name: caddy-debian-12
+    groups:
+      - debian
+    image: "docker.io/geerlingguy/docker-debian12-ansible"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    capabilities:
+      - NET_ADMIN
+
+  - name: caddy-debian-11
+    groups:
+      - debian
+    image: "docker.io/geerlingguy/docker-debian11-ansible"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    capabilities:
+      - NET_ADMIN
+
+  - name: caddy-rockylinux-9
+    groups:
+      - rockylinux
+    image: "docker.io/geerlingguy/docker-rockylinux9-ansible"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    override_command: false
+    pre_build_image: true
+    capabilities:
+      - NET_ADMIN
+
+  # Only supported on a best effort-basis, CI is broken right now (2023-03-03)
+  # - name: caddy-archlinux
+  #   groups:
+  #     - archlinux
+  #   image: "docker.io/carlodepieri/docker-archlinux-ansible"
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  #   cgroupns_mode: host
+  #   privileged: true
+  #   override_command: false
+  #   pre_build_image: true
+  #   capabilities:
+  #     - NET_ADMIN
+
+provisioner:
+  playbooks:
+    prepare: ../prepare.yml
+    converge: ../converge.yml
+    verify: ../verify.yml
+  inventory:
+    group_vars:
+      all:
+        caddy_config_mode: Caddyfile
+        caddy_caddyfile: |
+          {
+            exec echo "ok" >> /tmp/test.txt {
+                timeout 0
+            }
+          }
+
+          localhost:80 {
+            respond "Hello World!"
+          }
+
+
+        caddy_additionnal_modules:
+          - "github.com/abiosoft/caddy-exec"
