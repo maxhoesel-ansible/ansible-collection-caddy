@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+REPO="caddyserver/caddy"
+GITHUB_API="https://api.github.com/repos/${REPO}/releases/latest"
+
+version_ge() {
+  [ "$(printf '%s\n%s\n' "$1" "$2" | sort -V | tail -n1)" = "$1" ]
+}
+
+installed_raw="$({{ caddy_custom_bin_path }} --version 2>/dev/null || true)"
+if [ -z "${installed_raw}" ]; then
+  echo "Error: unable to determine installed Caddy version." >&2
+  exit 1
+fi
+
+installed_tag="${installed_raw%% *}"
+installed_version="${installed_tag#v}"
+
+if command -v curl >/dev/null 2>&1; then
+  echo "Using curl to query the GitHub API."
+  json="$(curl -fsSL "${GITHUB_API}")"
+elif command -v wget >/dev/null 2>&1; then
+  echo "Using wget to query the GitHub API." >&2
+  json="$(wget -qO- "${GITHUB_API}")"
+else
+  echo "Error: neither curl nor wget is available to query the GitHub API." >&2
+  exit 1
+fi
+
+latest_tag="$(printf '%s\n' "${json}" | grep -m1 '"tag_name"' | sed -E 's/.*"tag_name": *"([^"]+)".*/\1/')"
+
+if [ -z "${latest_tag}" ]; then
+  echo "Error: unable to determine the latest version from the GitHub API." >&2
+  exit 1
+fi
+
+latest_version="${latest_tag#v}"
+
+echo "Installed version : v${installed_version}"
+echo "Latest version    : v${latest_version}"
+
+if [ "${installed_version}" = "${latest_version}" ]; then
+  echo "Caddy is already up to date."
+  exit 0
+fi
+
+if version_ge "${installed_version}" "${latest_version}"; then
+  echo "The installed version (${installed_version}) is newer than or equal to the latest known version (${latest_version})."
+  exit 0
+else
+    {{ caddy_custom_bin_path }} upgrade
+    systemctl restart caddy.service
+fi

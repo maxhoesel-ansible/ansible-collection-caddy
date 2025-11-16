@@ -4,5 +4,11 @@ caddy_server_service:
   Caddyfile: caddy
   json: caddy-api
 
+caddy_systemd_unit_base_directory: "/etc/systemd/system"
+
+
 caddy_systemd_unit_override_directory: "/etc/systemd/system/caddy.service.d"
 caddy_systemd_unit_override_dest: "{{ caddy_systemd_unit_override_directory }}/override.conf"
+
+caddy_updater_service_name: "caddy-updater"
+caddy_upgrade_script_path: "/usr/local/bin/{{ caddy_updater_service_name }}.sh"

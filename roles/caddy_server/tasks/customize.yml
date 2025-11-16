@@ -41,3 +41,6 @@
     owner: root
     group: root
     mode: "0755"
+
+- name: Install updater
+  ansible.builtin.include_tasks: updater.yml
