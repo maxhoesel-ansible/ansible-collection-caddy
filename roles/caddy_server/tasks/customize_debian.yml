@@ -1,12 +1,38 @@
 ---
 - name: Check if caddy derivation exists
   ansible.builtin.stat:
-    path: "{{ caddy_backup_bin_path }}"
+    path: "{{ caddy_original_bin_path }}"
   register: caddy_backup_stat
 
 - name: Create derivation if it does not exist
   community.general.dpkg_divert:
     path: "{{ caddy_bin_path }}"
-    divert: "{{ caddy_backup_bin_path }}"
+    divert: "{{ caddy_original_bin_path }}"
     rename: true
   when: not caddy_backup_stat.stat.exists
+
+- name: Declare alternative for packaged binary
+  community.general.alternatives:
+    name: caddy
+    link: "{{ caddy_bin_path }}"
+    path: "{{ caddy_original_bin_path }}"
+    priority: 10
+    state: present
+  become: true
+
+- name: Declare alternative for custom binary
+  community.general.alternatives:
+    name: caddy
+    link: "{{ caddy_bin_path }}"
+    path: "{{ caddy_custom_bin_path }}"
+    priority: 50
+    state: present
+  become: true
+
+- name: Select custom binary as active value
+  community.general.alternatives:
+    name: caddy
+    link: "{{ caddy_bin_path }}"
+    path: "{{ caddy_custom_bin_path }}"
+    state: selected
+  become: true
