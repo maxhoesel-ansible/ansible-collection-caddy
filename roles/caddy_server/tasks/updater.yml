@@ -1,0 +1,34 @@
+---
+- name: Create upgrade script
+  ansible.builtin.template:
+    src: "{{ caddy_updater_service_name }}.sh.j2"
+    dest: "{{ caddy_upgrade_script_path }}"
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Add update timer
+  ansible.builtin.template:
+    src: "{{ caddy_updater_service_name }}.timer.j2"
+    dest: "{{ caddy_systemd_unit_base_directory }}/{{ caddy_updater_service_name }}.timer"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload Systemd
+
+- name: Add update service
+  ansible.builtin.template:
+    src: "{{ caddy_updater_service_name }}.service.j2"
+    dest: "{{ caddy_systemd_unit_base_directory }}/{{ caddy_updater_service_name }}.service"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload Systemd
+
+- name: Enable update timer
+  ansible.builtin.systemd_service:
+    name: "{{ caddy_updater_service_name }}.timer"
+    state: "{{ caddy_update_timer_enabled | ternary('started', 'stopped') }}"
+    enabled: "{{ caddy_update_timer_enabled }}"
