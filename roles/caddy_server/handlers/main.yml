@@ -4,3 +4,7 @@
     name: "{{ caddy_server_service[caddy_config_mode] }}"
     state: reloaded
   when: (caddy_config_mode == 'Caddyfile')
+
+- name: Reload Systemd
+  ansible.builtin.systemd_service:
+    daemon_reload: true
