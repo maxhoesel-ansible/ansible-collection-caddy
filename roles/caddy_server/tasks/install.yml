@@ -4,7 +4,7 @@
     name: "{{ caddy_server_packages }}"
 
 - name: Perform distro-specific install tasks
-  include_tasks: "install_{{ ansible_os_family | lower }}.yml"
+  include_tasks: "install_{{ ansible_facts['os_family'] | lower }}.yml"
 
 - name: Caddy is installed
   package:
