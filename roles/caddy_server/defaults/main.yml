@@ -8,7 +8,7 @@ caddy_apt_repo_url: https://dl.cloudsmith.io/public/caddy/stable/deb/debian
 caddy_apt_key_url: "https://dl.cloudsmith.io/public/caddy/stable/gpg.key"
 
 caddy_rpm_repo:
-  "https://download.copr.fedorainfracloud.org/results/@caddy/caddy/{{ 'fedora' if ansible_distribution | lower == 'fedora'
+  "https://download.copr.fedorainfracloud.org/results/@caddy/caddy/{{ 'fedora' if ansible_facts['distribution'] | lower == 'fedora'
   else 'epel' }}-$releasever-$basearch/"
 caddy_rpm_key: "https://download.copr.fedorainfracloud.org/results/@caddy/caddy/pubkey.gpg"
 
