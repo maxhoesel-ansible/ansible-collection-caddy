@@ -121,13 +121,13 @@ class CaddyServer(object):
             path (str): The path to create
         """
         segments = path.split("/")
-        if len(segments) == 0 or self.config_get(path):
+        if len(segments) == 0 or self.config_get(path) is not None:
             return
 
         present = []
         while len(segments) > 1:
             current_path = "/".join(present) + "/" + segments[0]
-            if not self.config_get(current_path):
+            if self.config_get(current_path) is None:
                 self.config_put("/".join(present) + "/" + segments[0],
                                 [] if segments[1].isdigit() else {}, create_path=False)
             present.append(segments[0])
