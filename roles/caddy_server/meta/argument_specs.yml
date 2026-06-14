@@ -47,7 +47,7 @@ argument_specs:
       caddy_rpm_repo:
         description: "Url for the rpm repo"
         default:
-          "https://download.copr.fedorainfracloud.org/results/@caddy/caddy/{{ 'fedora' if ansible_distribution | lower == 'fedora'
+          "https://download.copr.fedorainfracloud.org/results/@caddy/caddy/{{ 'fedora' if ansible_facts['distribution'] | lower == 'fedora'
           else 'epel' }}-$releasever-$basearch/"
       caddy_rpm_key:
         description: "Url for the rpm repo gpg key"
