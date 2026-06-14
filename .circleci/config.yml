@@ -60,7 +60,9 @@ workflows:
           name: Publish Release to GitHub
           context: collection-publishing
           filters: *semver-tagged
+          python-version: "3.14"
       - collection-testing/publish-galaxy:
           name: Publish to Galaxy
           context: collection-publishing
           filters: *semver-tagged
+          python-version: "3.14"
