@@ -13,7 +13,7 @@ filters: &semver-tagged
 executors:
   pytest:
     machine:
-      image: ubuntu-2204:2024.08.1 # python 3.12, supports ansible 2.16+2.17
+      image: ubuntu-2404:2026.05.1
     resource_class: large
 
 jobs:
@@ -49,11 +49,13 @@ workflows:
           parallelism: 3
           matrix:
             parameters:
-              ansible-python-version-tuple: ["2.18,3.8", "2.19,3.8"]
+              ansible-python-version-tuple: ["2.20,3.9", "2.21,3.9"]
       - collection-testing/pre-commit-lint:
           name: Lint
+          python-version: "3.14"
       - collection-testing/antsibull-docs:
           name: Generate Docs
+          python-version: "3.14"
       - collection-testing/publish-github:
           name: Publish Release to GitHub
           context: collection-publishing

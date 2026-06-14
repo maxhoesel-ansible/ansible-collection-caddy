@@ -9,9 +9,9 @@ Alternatively, you can also configure caddy with a Caddyfile by passing it to th
 ## Requirements
 
 - The following distributions are currently supported and tested:
-  - Ubuntu: 22.04 LTS, 24.04 LTS
+  - Ubuntu: 22.04 LTS, 24.04 LTS, 26.04 LTS
   - Debian: 11, 12, 13
-  - RockyLinux: 9
+  - RockyLinux: 9, 10
 - The following distributions are supported on a best-effort basis (should work but are not tested in CI):
   - Arch Linux
 - Supported architectures: Anything supported by upstream caddy should work
