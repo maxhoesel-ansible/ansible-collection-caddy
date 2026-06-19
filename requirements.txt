@@ -236,7 +236,7 @@ pygments==2.20.0
     #   pytest
     #   rich
     #   sphinx
-pylint==4.0.5
+pylint==4.0.6
     # via -r requirements.in
 pyproject-hooks==1.2.0
     # via
