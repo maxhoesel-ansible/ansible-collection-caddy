@@ -11,3 +11,7 @@
     name: caddy
     update_cache: true
   notify: Reload Caddy
+
+- name: Create custom installation
+  include_tasks: customize.yml
+  when: caddy_additionnal_modules is defined and caddy_additionnal_modules | length > 0

@@ -1,0 +1,5 @@
+[Service]
+ExecStart=
+ExecStart={{ caddy_custom_bin_path }} run --environ --config /etc/caddy/Caddyfile
+ExecReload=
+ExecReload={{ caddy_custom_bin_path }} reload --config /etc/caddy/Caddyfile --force

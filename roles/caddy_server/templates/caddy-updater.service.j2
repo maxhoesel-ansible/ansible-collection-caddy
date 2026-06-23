@@ -1,0 +1,6 @@
+[Unit]
+Description=Caddy updater service
+
+[Service]
+Type=oneshot
+ExecStart={{ caddy_upgrade_script_path }}
