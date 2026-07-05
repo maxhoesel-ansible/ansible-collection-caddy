@@ -164,7 +164,7 @@ mccabe==0.7.0
     # via pylint
 mdurl==0.1.2
     # via markdown-it-py
-molecule==26.4.0
+molecule==26.6.0
     # via
     #   -r requirements.in
     #   molecule-plugins
