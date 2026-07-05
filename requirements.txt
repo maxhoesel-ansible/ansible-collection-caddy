@@ -34,7 +34,7 @@ ansible-core==2.21.1
     #   ansible-compat
     #   ansible-lint
     #   molecule
-ansible-lint==26.4.0
+ansible-lint==26.6.0
     # via -r requirements.in
 ansible-pygments==0.1.2
     # via
