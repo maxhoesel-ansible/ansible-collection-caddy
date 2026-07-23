@@ -200,7 +200,7 @@ pathspec==1.0.4
     #   yamllint
 perky==0.9.3
     # via antsibull-core
-pip-tools==7.5.3
+pip-tools==7.6.0
     # via -r requirements.in
 platformdirs==4.10.0
     # via
