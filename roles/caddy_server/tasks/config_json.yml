@@ -1,7 +1,13 @@
 ---
-- name: Caddy API service is running and enabled
-  service:
-    name: "{{ caddy_server_service[caddy_config_mode] }}"
+- name: caddy service is stopped and disabled
+  ansible.builtin.systemd:
+    name: "caddy"
+    state: stopped
+    enabled: false
+
+- name: caddy-api service is started and enabled
+  ansible.builtin.systemd:
+    name: "caddy-api"
     state: started
     enabled: true
 
