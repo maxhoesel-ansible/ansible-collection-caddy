@@ -8,8 +8,14 @@
     mode: "644"
   notify: Reload Caddy
 
-- name: Caddy API service is running and enabled
-  service:
-    name: "{{ caddy_server_service[caddy_config_mode] }}"
+- name: caddy-api service is stopped and disabled
+  ansible.builtin.systemd:
+    name: "caddy-api"
+    state: stopped
+    enabled: false
+
+- name: caddy service is running and enabled
+  ansible.builtin.systemd:
+    name: "caddy"
     state: started
     enabled: true
