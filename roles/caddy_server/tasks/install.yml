@@ -14,4 +14,4 @@
 
 - name: Create custom installation
   include_tasks: customize.yml
-  when: caddy_additionnal_modules is defined and caddy_additionnal_modules | length > 0
+  when: caddy_custom_additional_modules | length > 0

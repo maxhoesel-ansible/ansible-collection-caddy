@@ -52,3 +52,16 @@ argument_specs:
       caddy_rpm_key:
         description: "Url for the rpm repo gpg key"
         default: "https://download.copr.fedorainfracloud.org/results/@caddy/caddy/pubkey.gpg"
+      caddy_custom_additional_modules:
+        description: "Additional modules to install using caddy's B(experimental) C(add-package) command. This creates a custom binary independent of the repository binary. Note that this relies on Caddys build server for custom binaries and may be removed in the future."
+        type: list
+        elements: str
+        default: []
+      caddy_custom_update_timer_enabled:
+        description: "Enable a timer that updates the custom caddy binary using the B(experimental) C(upgrade) command. This does not affect the regular binary. Has no effect if I(caddy_custom_additional_modules) is empty"
+        type: bool
+        default: true
+      caddy_custom_update_timer_calendar:
+        description: "Systemd Calendar expression when the custom update script should run"
+        type: string
+        default: "*-*-* 4:00:00"

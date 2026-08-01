@@ -1,34 +1,33 @@
 ---
-- name: Create upgrade script
+- name: Update script is present
   ansible.builtin.template:
-    src: "{{ caddy_updater_service_name }}.sh.j2"
-    dest: "{{ caddy_upgrade_script_path }}"
+    src: "caddy-custom-updater.sh.j2"
+    dest: "/usr/local/bin/caddy-custom-updater"
     owner: root
     group: root
     mode: "0755"
 
-- name: Add update timer
+- name: Update timer is present
   ansible.builtin.template:
-    src: "{{ caddy_updater_service_name }}.timer.j2"
-    dest: "{{ caddy_systemd_unit_base_directory }}/{{ caddy_updater_service_name }}.timer"
+    src: "caddy-custom-updater.timer.j2"
+    dest: "/etc/systemd/system/caddy-custom-updater.timer"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload Systemd
+- name: Custom update service is present
+  ansible.builtin.template:
+    src: "caddy-custom-updater.service.j2"
+    dest: "/etc/systemd/system/caddy-custom-updater.service"
     owner: root
     group: root
     mode: "0644"
   notify:
     - Reload Systemd
 
-- name: Add update service
-  ansible.builtin.template:
-    src: "{{ caddy_updater_service_name }}.service.j2"
-    dest: "{{ caddy_systemd_unit_base_directory }}/{{ caddy_updater_service_name }}.service"
-    owner: root
-    group: root
-    mode: "0644"
-  notify:
-    - Reload Systemd
-
-- name: Enable update timer
+- name: Custom update timer is present
   ansible.builtin.systemd_service:
-    name: "{{ caddy_updater_service_name }}.timer"
-    state: "{{ caddy_update_timer_enabled | ternary('started', 'stopped') }}"
-    enabled: "{{ caddy_update_timer_enabled }}"
+    name: "caddy-custom-updater.timer"
+    state: "{{ caddy_custom_update_timer_enabled | ternary('started', 'stopped') }}"
+    enabled: "{{ caddy_custom_update_timer_enabled }}"

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+CADDY_BIN="{{ caddy_custom_bin_path }}"
+
+current_version=$($CADDY_BIN --version)
+echo "Current Caddy version: $current_version"
+
+$CADDY_BIN upgrade
+new_version=$($CADDY_BIN --version)
+
+if [[ $new_version != "$current_version" ]]; then
+    echo "Restarting Caddy after binary upgrade"
+    systemctl restart caddy.service
+fi

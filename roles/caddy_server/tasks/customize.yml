@@ -10,7 +10,7 @@
     dest: "{{ caddy_custom_bin_path }}"
     owner: root
     group: root
-    mode: "0755"
+    mode: "755"
     remote_src: true
   when: not caddy_custom_bin_stat.stat.exists
 
@@ -22,10 +22,10 @@
   include_tasks: "customize_others.yml"
   when: (ansible_os_family | lower) != 'debian'
 
-- name: Install additional modules
+- name: Additional modules are installed
   ansible.builtin.command:
     cmd: "{{ caddy_custom_bin_path }} add-package {{ caddy_current_module }}"
-  loop: "{{ caddy_additionnal_modules }}"
+  loop: "{{ caddy_custom_additional_modules }}"
   loop_control:
     loop_var: caddy_current_module
   register: caddy_install_module_result
@@ -35,12 +35,12 @@
     - caddy_install_module_result.stderr.find("package is already added") == -1
   notify: Reload Caddy
 
-- name: Restore permission
+- name: Permissions on binary are correct
   ansible.builtin.file:
     path: "{{ caddy_custom_bin_path }}"
     owner: root
     group: root
-    mode: "0755"
+    mode: "755"
 
 - name: Install updater
   ansible.builtin.include_tasks: updater.yml
