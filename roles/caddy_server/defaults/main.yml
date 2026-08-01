@@ -18,4 +18,4 @@ caddy_additionnal_modules: []
 
 caddy_bin_path: "/usr/bin/caddy"
 caddy_custom_bin_path: "/usr/local/bin/caddy.custom"
-caddy_backup_bin_path: "/usr/bin/caddy.default"
+caddy_original_bin_path: "/usr/bin/caddy.default"

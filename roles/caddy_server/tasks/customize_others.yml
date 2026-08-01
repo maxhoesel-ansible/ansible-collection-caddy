@@ -1,0 +1,19 @@
+---
+- name: Create systemd unit override directory
+  ansible.builtin.file:
+    path: "{{ caddy_systemd_unit_override_directory }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Create systemd unit override config
+  ansible.builtin.template:
+    src: "caddy.service.j2"
+    dest: "{{ caddy_systemd_unit_override_dest }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - "Reload Systemd"
+    - "Reload Caddy"

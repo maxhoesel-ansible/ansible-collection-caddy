@@ -1,15 +1,12 @@
 ---
-- name: Perform distro-specific customization tasks
-  include_tasks: "customize_{{ ansible_os_family | lower }}.yml"
-
 - name: Check if caddy custom binary exists
   ansible.builtin.stat:
     path: "{{ caddy_custom_bin_path }}"
   register: caddy_custom_bin_stat
 
-- name: Create custom binary from backup
+- name: Create custom binary from original
   ansible.builtin.copy:
-    src: "{{ caddy_backup_bin_path }}"
+    src: "{{ caddy_bin_path }}"
     dest: "{{ caddy_custom_bin_path }}"
     owner: root
     group: root
@@ -17,31 +14,13 @@
     remote_src: true
   when: not caddy_custom_bin_stat.stat.exists
 
-- name: Declare alternative for packaged binary
-  community.general.alternatives:
-    name: caddy
-    link: "{{ caddy_bin_path }}"
-    path: "{{ caddy_backup_bin_path }}"
-    priority: 10
-    state: present
-  become: true
+- name: Perform debian customization tasks
+  include_tasks: "customize_debian.yml"
+  when: (ansible_os_family | lower) == 'debian'
 
-- name: Declare alternative for custom binary
-  community.general.alternatives:
-    name: caddy
-    link: "{{ caddy_bin_path }}"
-    path: "{{ caddy_custom_bin_path }}"
-    priority: 50
-    state: present
-  become: true
-
-- name: Select custom binary as active value
-  community.general.alternatives:
-    name: caddy
-    link: "{{ caddy_bin_path }}"
-    path: "{{ caddy_custom_bin_path }}"
-    state: selected
-  become: true
+- name: Perform other distribution customization tasks
+  include_tasks: "customize_others.yml"
+  when: (ansible_os_family | lower) != 'debian'
 
 - name: Install additional modules
   ansible.builtin.command:
