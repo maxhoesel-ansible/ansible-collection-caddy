@@ -2,7 +2,6 @@ import importlib
 import importlib.metadata
 import os
 import subprocess
-import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -19,32 +18,14 @@ with open("galaxy.yml", encoding="utf-8") as f:
 @dataclass
 class TestVersions:
     node_python_version: str
-    ansible_version: str
 
 
 class CollectionTestEnv:
     # pylint: disable=redefined-outer-name
     def __init__(
         self,
-        request,
-        test_versions: TestVersions,
         tmp_path_factory: pytest.TempPathFactory,
     ) -> None:
-        # Sanity check against modifying user/system packages.
-        # We need to manually pip-install a version of ansible-core to test with, lets make sure
-        # we don't hose the users personal install.
-        in_venv = sys.prefix != sys.base_prefix
-        if not in_venv and not request.config.getoption("--ci"):
-            raise ValueError(
-                "Aborting ansible-core install for tests because we are not inside a virtualenv. "
-                "Please use ./scripts/setup.sh to setup a virtualenv, then activate it."
-            )
-        # install the specified version of ansible-core into our venv
-        subprocess.run(
-            ["pip", "install", f"ansible-core~={test_versions.ansible_version}.0"],
-            check=True,
-        )
-
         # Build collection into isolated install path
         build_path: Path = tmp_path_factory.mktemp("build")
         collection_tar = (
@@ -101,15 +82,14 @@ class CollectionTestEnv:
 
 @pytest.fixture()
 # pylint: disable=redefined-outer-name
-def collection_test_env(request, test_versions, tmp_path_factory) -> CollectionTestEnv:
-    return CollectionTestEnv(request, test_versions, tmp_path_factory)
+def collection_test_env(tmp_path_factory) -> CollectionTestEnv:
+    return CollectionTestEnv(tmp_path_factory)
 
 
 @pytest.fixture(scope="session")
 def test_versions(request) -> TestVersions:
     return TestVersions(
         request.config.getoption("--node-python-version"),
-        request.config.getoption("--ansible-version"),
     )
 
 
@@ -119,19 +99,6 @@ def get_ansible_version():
 
 
 def pytest_addoption(parser):
-    parser.addoption(
-        "--ci",
-        action="store_true",
-        default=False,
-        help="Allow unsafe actions such as installing ansible-core directly in CI environments",
-    )
-    parser.addoption(
-        "--ansible-version",
-        action="store",
-        default=get_ansible_version(),
-        help="Version of ansible to use for tests, in format 'x.yy', such as '2.15'."
-        "Default: no constraint (latest/installed)",
-    )
     parser.addoption(
         "--node-python-version",
         action="store",
