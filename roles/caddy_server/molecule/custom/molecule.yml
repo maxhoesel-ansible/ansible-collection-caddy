@@ -112,14 +112,13 @@ provisioner:
   playbooks:
     prepare: ../prepare.yml
     converge: ../converge.yml
-    verify: ../verify.yml
   inventory:
     group_vars:
       all:
         caddy_config_mode: Caddyfile
         caddy_caddyfile: |
           {
-            exec echo "ok" >> /tmp/test.txt {
+            exec touch /var/lib/caddy/test.txt {
                 timeout 0
             }
           }

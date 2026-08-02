@@ -1,2 +1,11 @@
 ---
+caddy_server_service:
+  Caddyfile: caddy
+  json: caddy-api
 caddy_server_caddyfile_dest: /etc/caddy/Caddyfile
+
+caddy_bin_path: "/usr/bin/caddy"
+caddy_custom_bin_path: "/usr/local/bin/caddy.custom"
+caddy_original_bin_path: "/usr/bin/caddy.default"
+
+caddy_custom_update_script_path: /usr/local/bin/caddy-custom-update

@@ -63,5 +63,5 @@ argument_specs:
         default: true
       caddy_custom_update_timer_calendar:
         description: "Systemd Calendar expression when the custom update script should run"
-        type: string
+        type: str
         default: "*-*-* 4:00:00"

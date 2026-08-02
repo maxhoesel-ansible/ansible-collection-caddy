@@ -10,7 +10,7 @@
   package:
     name: caddy
     update_cache: true
-  notify: Reload Caddy
+  notify: Restart Caddy
 
 - name: Create custom installation
   include_tasks: customize.yml

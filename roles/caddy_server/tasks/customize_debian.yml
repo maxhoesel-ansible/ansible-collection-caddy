@@ -10,6 +10,8 @@
     divert: "{{ caddy_original_bin_path }}"
     rename: true
   when: not caddy_backup_stat.stat.exists
+  notify:
+    - "Restart Caddy"
 
 - name: Declare alternative for packaged binary
   community.general.alternatives:
@@ -19,6 +21,8 @@
     priority: 10
     state: present
   become: true
+  notify:
+    - "Restart Caddy"
 
 - name: Declare alternative for custom binary
   community.general.alternatives:
@@ -28,6 +32,8 @@
     priority: 50
     state: present
   become: true
+  notify:
+    - "Restart Caddy"
 
 - name: Select custom binary as active value
   community.general.alternatives:
@@ -36,3 +42,5 @@
     path: "{{ caddy_custom_bin_path }}"
     state: selected
   become: true
+  notify:
+    - "Restart Caddy"

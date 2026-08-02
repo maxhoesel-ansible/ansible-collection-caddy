@@ -1,0 +1,34 @@
+- import_playbook: ../verify.yml
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Get running services
+      service_facts:
+
+    - name: Verify that custom updater timer is running # noqa no-changed-when
+      ansible.builtin.command: systemctl is-active caddy-custom-update.timer
+    - name: Verify that custom updater timer is enabled # noqa no-changed-when
+      ansible.builtin.command: systemctl is-enabled caddy-custom-update.timer
+
+    - name: Start updater service
+      ansible.builtin.systemd:
+        name: caddy-custom-update.service
+        state: started
+
+    - name: Get updater service output # noqa no-changed-when
+      ansible.builtin.command: journalctl -eu caddy-custom-update.service
+      register: _custom_update
+
+    - name: Ensure updater service ran sucessfully
+      ansible.builtin.assert:
+        that: "'New Caddy version' in _custom_update.stdout"
+
+    - name: Check exec module output
+      ansible.builtin.stat:
+        path: /var/lib/caddy/test.txt
+      register: _module_file
+    - name: Ensure exec command from custom module ran
+      ansible.builtin.assert:
+        that: _module_file.stat.exists

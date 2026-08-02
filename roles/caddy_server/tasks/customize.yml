@@ -14,13 +14,8 @@
     remote_src: true
   when: not caddy_custom_bin_stat.stat.exists
 
-- name: Perform debian customization tasks
-  include_tasks: "customize_debian.yml"
-  when: (ansible_os_family | lower) == 'debian'
-
-- name: Perform other distribution customization tasks
-  include_tasks: "customize_others.yml"
-  when: (ansible_os_family | lower) != 'debian'
+- name: Perform OS-specific customization tasks
+  include_tasks: "customize_{{ ansible_os_family | lower }}.yml"
 
 - name: Additional modules are installed
   ansible.builtin.command:
@@ -33,7 +28,8 @@
   failed_when:
     - caddy_install_module_result.rc != 0
     - caddy_install_module_result.stderr.find("package is already added") == -1
-  notify: Reload Caddy
+  notify:
+    - "Restart Caddy"
 
 - name: Permissions on binary are correct
   ansible.builtin.file:

@@ -1,10 +1,13 @@
 ---
 - name: Reload Caddy
-  service:
-    name: "caddy"
+  ansible.builtin.systemd:
+    name: caddy.service
     state: reloaded
-  when: (caddy_config_mode == 'Caddyfile')
+    daemon_reload: true
+  when: caddy_config_mode == "Caddyfile"
 
-- name: Reload Systemd
-  ansible.builtin.systemd_service:
+- name: Restart Caddy
+  ansible.builtin.systemd:
+    name: "{{ caddy_server_service[caddy_config_mode] }}"
+    state: restarted
     daemon_reload: true
