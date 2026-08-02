@@ -67,6 +67,27 @@ This is done by overwriting the respective variables:
 - Url for the rpm repo gpg key
 - Default: `https://download.copr.fedorainfracloud.org/results/@caddy/caddy/pubkey.gpg`
 
+### Adding Custom Modules/Packages
+
+Caddy can be extended with various modules that must be compiled into the main Caddy binary.
+This role supports Caddy new **experimental** `add-package` command to automate this process.
+Please note that this command relies on Caddys upstream build server and [may be removed in the future.](https://github.com/caddyserver/caddy/issues/7010)
+
+#### `caddy_custom_additional_modules`
+- Additional modules to install using caddy's **experimental** `add-package` command.
+- This creates a custom binary independent of the repository binary.
+- Note that this relies on Caddys build server for custom binaries and may be removed in the future.
+- Default: `[]`
+
+#### `caddy_custom_update_timer_enabled`
+- Enable a timer that updates the custom caddy binary using the **experimental** `upgrade` command.
+- This does not affect the regular binary.
+- Has no effect if `caddy_custom_additional_modules` is empty
+- Default: `true`
+
+#### `caddy_custom_update_timer_calendar`
+- Systemd Calendar expression when the custom update script should run
+- Default `*-*-* 4:00:00`
 
 ## Example Playbooks
 

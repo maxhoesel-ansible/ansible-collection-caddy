@@ -1,0 +1,42 @@
+---
+- name: Check if caddy custom binary exists
+  ansible.builtin.stat:
+    path: "{{ caddy_custom_bin_path }}"
+  register: caddy_custom_bin_stat
+
+- name: Create custom binary from original
+  ansible.builtin.copy:
+    src: "{{ caddy_bin_path }}"
+    dest: "{{ caddy_custom_bin_path }}"
+    owner: root
+    group: root
+    mode: "755"
+    remote_src: true
+  when: not caddy_custom_bin_stat.stat.exists
+
+- name: Perform OS-specific customization tasks
+  include_tasks: "customize_{{ ansible_os_family | lower }}.yml"
+
+- name: Additional modules are installed
+  ansible.builtin.command:
+    cmd: "{{ caddy_custom_bin_path }} add-package {{ caddy_current_module }}"
+  loop: "{{ caddy_custom_additional_modules }}"
+  loop_control:
+    loop_var: caddy_current_module
+  register: caddy_install_module_result
+  changed_when: caddy_install_module_result.rc == 0
+  failed_when:
+    - caddy_install_module_result.rc != 0
+    - caddy_install_module_result.stderr.find("package is already added") == -1
+  notify:
+    - "Restart Caddy"
+
+- name: Permissions on binary are correct
+  ansible.builtin.file:
+    path: "{{ caddy_custom_bin_path }}"
+    owner: root
+    group: root
+    mode: "755"
+
+- name: Install updater
+  ansible.builtin.include_tasks: updater.yml

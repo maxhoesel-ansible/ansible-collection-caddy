@@ -1,0 +1,24 @@
+---
+- name: Systemd unit override directories are present
+  ansible.builtin.file:
+    path: "/etc/systemd/system/{{ item }}.service.d"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop:
+    - caddy
+    - caddy-api
+
+- name: Systemd unit overrides are present
+  ansible.builtin.template:
+    src: "override.{{ item}}.service.j2"
+    dest: "/etc/systemd/system/{{ item }}.service.d/override.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - "Restart Caddy"
+  loop:
+    - caddy
+    - caddy-api

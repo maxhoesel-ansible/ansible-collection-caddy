@@ -1,0 +1,30 @@
+---
+- name: Update script is present
+  ansible.builtin.template:
+    src: "caddy-custom-update.sh.j2"
+    dest: "{{ caddy_custom_update_script_path }}"
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Update timer is present
+  ansible.builtin.template:
+    src: "caddy-custom-update.timer.j2"
+    dest: "/etc/systemd/system/caddy-custom-update.timer"
+    owner: root
+    group: root
+    mode: "0644"
+- name: Custom update service is present
+  ansible.builtin.template:
+    src: "caddy-custom-update.service.j2"
+    dest: "/etc/systemd/system/caddy-custom-update.service"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Custom update timer is present
+  ansible.builtin.systemd:
+    name: "caddy-custom-update.timer"
+    state: "{{ caddy_custom_update_timer_enabled | ternary('started', 'stopped') }}"
+    enabled: "{{ caddy_custom_update_timer_enabled }}"
+    daemon_reload: true

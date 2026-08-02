@@ -13,3 +13,7 @@ caddy_rpm_repo:
 caddy_rpm_key: "https://download.copr.fedorainfracloud.org/results/@caddy/caddy/pubkey.gpg"
 
 caddy_config_managed_string: "{{ ansible_managed | d('Ansible Managed, no not modify!') }}"
+
+caddy_custom_additional_modules: []
+caddy_custom_update_timer_enabled: true
+caddy_custom_update_timer_calendar: "*-*-* 4:00:00"
