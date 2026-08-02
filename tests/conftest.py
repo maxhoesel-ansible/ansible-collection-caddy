@@ -16,8 +16,10 @@ with open("galaxy.yml", encoding="utf-8") as f:
 
 
 @dataclass
-class TestVersions:
+class TestOptions:
+    __test__ = False
     node_python_version: str
+    molecule_skip_destroy: bool
 
 
 class CollectionTestEnv:
@@ -87,9 +89,10 @@ def collection_test_env(tmp_path_factory) -> CollectionTestEnv:
 
 
 @pytest.fixture(scope="session")
-def test_versions(request) -> TestVersions:
-    return TestVersions(
+def test_options(request) -> TestOptions:
+    return TestOptions(
         request.config.getoption("--node-python-version"),
+        request.config.getoption("--molecule-skip-destroy")
     )
 
 
@@ -105,4 +108,10 @@ def pytest_addoption(parser):
         default=NODE_PYTHON_DEFAULT_VERSION,
         help="Python version to test Ansible modules with, "
         f"in the format '3.x'. Default: '{NODE_PYTHON_DEFAULT_VERSION}'",
+    )
+    parser.addoption(
+        "--molecule-skip-destroy",
+        action="store_true",
+        default=False,
+        help="Do not destroy molecule containers after running a scenario. Useful for debugging"
     )
