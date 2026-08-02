@@ -71,16 +71,10 @@ Our testing Matrix currently looks like this:
 | Node Python Version | ✅ | ❌ | Collection-supported Python version (see [README](./README.md))
 
 All possible permutations are automatically tested in CI.
-You can change the tested versions locally by supplying additional arguments to `pytest`:
+You can change the tested versions locally by supplying additional arguments to `uv run pytest`:
 
-```
-$ pytest --help
-# truncated output
-Custom options:
-  --ansible-version=ANSIBLE_VERSION
-                        Version of ansible to use for tests, in the format '2.xx'. Default: see requirements.txt
-  --node-python-version=NODE_PYTHON_VERSION
-                        Python version to test Ansible modules with, in the format '3.x'. Default: '3.6'
+```bash
+$ uv run --group "ansible-2.xx" pytest --node-python-version=NODE_PYTHON_VERSION
 ```
 
 ## Writing Tests
