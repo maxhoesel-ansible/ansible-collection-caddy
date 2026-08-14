@@ -179,10 +179,10 @@ source = { virtual = "." }
 
 [package.dev-dependencies]
 ansible-2-20 = [
-    { name = "ansible-core" },
+    { name = "ansible-core", version = "2.20.6", source = { registry = "https://pypi.org/simple" } },
 ]
 ansible-2-21 = [
-    { name = "ansible-core" },
+    { name = "ansible-core", version = "2.21.2", source = { registry = "https://pypi.org/simple" } },
 ]
 dev = [
     { name = "ansible-lint" },
@@ -198,7 +198,7 @@ dev = [
 [package.metadata]
 
 [package.metadata.requires-dev]
-ansible-2-20 = [{ name = "ansible-core", specifier = "==2.21.2" }]
+ansible-2-20 = [{ name = "ansible-core", specifier = "==2.20.6" }]
 ansible-2-21 = [{ name = "ansible-core", specifier = "==2.21.2" }]
 dev = [
     { name = "ansible-lint", specifier = "==26.6.0" },
@@ -216,7 +216,8 @@ name = "ansible-compat"
 version = "26.6.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "ansible-core" },
+    { name = "ansible-core", version = "2.20.6", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-20'" },
+    { name = "ansible-core", version = "2.21.2", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-21' or extra != 'group-24-ansible-collection-caddy-ansible-2-20'" },
     { name = "jsonschema" },
     { name = "packaging" },
     { name = "pyyaml" },
@@ -229,14 +230,46 @@ wheels = [
 
 [[package]]
 name = "ansible-core"
+version = "2.20.6"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.14' and sys_platform == 'linux2'",
+    "python_full_version >= '3.14' and sys_platform == 'linux'",
+    "python_full_version >= '3.14' and sys_platform != 'linux' and sys_platform != 'linux2'",
+    "python_full_version < '3.14' and sys_platform == 'linux2'",
+    "python_full_version < '3.14' and sys_platform == 'linux'",
+    "python_full_version < '3.14' and sys_platform != 'linux' and sys_platform != 'linux2'",
+]
+dependencies = [
+    { name = "cryptography", marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-20'" },
+    { name = "jinja2", marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-20'" },
+    { name = "packaging", marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-20'" },
+    { name = "pyyaml", marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-20'" },
+    { name = "resolvelib", marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-20'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0f/48/e33714f82eaae739f805ff3ebc65a19fb7b1ea87bc69231361561762d44f/ansible_core-2.20.6.tar.gz", hash = "sha256:3066c430e8cba46777bf736ebcd085c90b0d7664c3fbd8c5b85227f8579cdcbf", size = 3343241, upload-time = "2026-05-18T20:51:34.619Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d5/a4/18e26f79d17801a9b23131258479a94f9dad37e40ea3f0cd00b8743800e4/ansible_core-2.20.6-py3-none-any.whl", hash = "sha256:28f8cb1647f3459ccd38d098a06a33eaf49cbfce649e506ae6d5f1c2ac77dc1d", size = 2417498, upload-time = "2026-05-18T20:51:32.62Z" },
+]
+
+[[package]]
+name = "ansible-core"
 version = "2.21.2"
 source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.14' and sys_platform == 'linux2'",
+    "python_full_version >= '3.14' and sys_platform == 'linux'",
+    "python_full_version >= '3.14' and sys_platform != 'linux' and sys_platform != 'linux2'",
+    "python_full_version < '3.14' and sys_platform == 'linux2'",
+    "python_full_version < '3.14' and sys_platform == 'linux'",
+    "python_full_version < '3.14' and sys_platform != 'linux' and sys_platform != 'linux2'",
+]
 dependencies = [
-    { name = "cryptography" },
-    { name = "jinja2" },
-    { name = "packaging" },
-    { name = "pyyaml" },
-    { name = "resolvelib" },
+    { name = "cryptography", marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-21' or extra != 'group-24-ansible-collection-caddy-ansible-2-20'" },
+    { name = "jinja2", marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-21' or extra != 'group-24-ansible-collection-caddy-ansible-2-20'" },
+    { name = "packaging", marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-21' or extra != 'group-24-ansible-collection-caddy-ansible-2-20'" },
+    { name = "pyyaml", marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-21' or extra != 'group-24-ansible-collection-caddy-ansible-2-20'" },
+    { name = "resolvelib", marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-21' or extra != 'group-24-ansible-collection-caddy-ansible-2-20'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/a1/6d/14fbdae14e7d02fd8349e6a52a76c144a1f92a2df3236c46bd7030cafdce/ansible_core-2.21.2.tar.gz", hash = "sha256:c6139e662eda1bfb5af16029f12afa5edfc7f95f8cd44281b1bdb434a6d9dc70", size = 3388984, upload-time = "2026-07-13T19:39:08.347Z" }
 wheels = [
@@ -249,7 +282,8 @@ version = "26.6.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ansible-compat" },
-    { name = "ansible-core" },
+    { name = "ansible-core", version = "2.20.6", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-20'" },
+    { name = "ansible-core", version = "2.21.2", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-21' or extra != 'group-24-ansible-collection-caddy-ansible-2-20'" },
     { name = "black" },
     { name = "cffi" },
     { name = "cryptography" },
@@ -1062,7 +1096,8 @@ version = "26.6.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ansible-compat" },
-    { name = "ansible-core" },
+    { name = "ansible-core", version = "2.20.6", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-20'" },
+    { name = "ansible-core", version = "2.21.2", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'group-24-ansible-collection-caddy-ansible-2-21' or extra != 'group-24-ansible-collection-caddy-ansible-2-20'" },
     { name = "click" },
     { name = "enrich" },
     { name = "jinja2" },
